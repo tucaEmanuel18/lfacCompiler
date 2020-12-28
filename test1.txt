@@ -1,0 +1,23 @@
+int x;
+int y;
+int x, y, z;
+float aha[50];
+int x[50], z, y[5];
+int x := 7;
+int x := 5, z := 3;
+char x[3] := {'1','2','3'}, z[2] := {'1','2'};
+char nume := "ioana";
+bool aha := 1.5;
+float var;
+char c;
+string nume;
+string prenume;
+bool compara;
+const int x[50] := {2, 6, 3}, z := 7, y[5] := {0, 0, 0, 0, 0};
+const int pret := 50;
+const float cantitate1 := 1.2, cantitate2 := 00.00, cantitate3 := 3.5;
+const char ch := 'a';
+char myArray[1];
+
+
+

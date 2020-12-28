@@ -1,0 +1,113 @@
+BEGIN;
+int var := 53;
+bool array[25];
+float aha := 5.000000;
+while var > aha ;
+if se_pare_ca_merge ;
+x := 5 + var;
+string id := "hahaha";
+char id2 := '?';
+END
+
+
+
+
+
+
+
+functie:
+{
+	<	DECLARATII
+		functie
+		{
+			<declaratii>
+			<bloc>
+		}
+	>
+
+	<BLOC>
+}
+
+
+
+	
+
+
+int x;
+int y;
+int x, y, z;
+float aha[50];
+int x[50], z, y[5];
+int x := 7;
+int x := 5, z := 3;
+char x[3] := {'1','2','3'}, z[2] := {'1','2'};
+char nume[10] := {'i','o','a'};
+float var;
+char c;
+string nume;
+string prenume;
+bool compara;
+const int x[50] := {2, 6, 3}, z := 7, y[5] := {0, 0, 0, 0, 0};
+const int pret := 50;
+const float cantitate1 := 1.2, cantitate2 := 00.00, cantitate3 := 3.5;
+const char ch := 'a';
+char myArray[1];
+
+
+caps obiect {
+	float first;
+	float second;
+	const float third := 5.2;
+};
+
+int sum(int x, int y)
+{
+	int a;
+
+	a := 3;
+	return x + y + a;
+}
+float avg(float x, float y)
+{
+	return (x + y) / 2;
+}
+
+BEGIN
+
+x := 5;
+y := x + 3;
+x := y + sum(x, y);
+id assign id + id(int, id)
+while(x > 0)
+begin
+	x := x - 1;
+	if(x = 2 || x = 4)
+	begin
+		x := x - 1;
+		y := y + 1;
+	end
+
+end 
+nume := "Aha";
+prenume := "Hah";
+prenume := nume + prenume;
+compara := nume = prenume;
+var := 1.5
+obiect.first := avg(obiect.third + cantitate1, cantitate2);
+obiect.second := 1.5;
+
+END
+
+
+
+__________________________________________________
+###################################################
+TESTE GRESITE
+##################################################
+
+const int x[50] := {2, 6, 3}, z := 7, y[5] := {0, 0, 0, 0, 0,};  // virgula de la finalul listei lui y
+
+
+
+
+
