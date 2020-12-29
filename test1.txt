@@ -104,3 +104,19 @@ obiect get_obiect(float x, float second, float third);
 int myFunction(obiect pasare1, obiect pasare2, bool zboara);
 int myFunction(obiect pasare1, obiect pasare2, bool zboara);
 obiect get_obiect(obiect y);
+
+
+begin_prog
+x := (5);
+x := 5;
+x := 5 + 7;
+y := x;
+y := x * z;
+y := x / 2 + z;
+y := x / ((2 + z) - 3);
+x := sum(x, y);
+x := sum(x, y) / 2 + z;
+a := true
+sum(x/(2+sum(5,4)), 2+sum(5,4))+ sum(2,5));
+
+end_prog

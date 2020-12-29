@@ -51,50 +51,50 @@ extern int yydebug;
   {
     DATA_TYPE = 258,
     USR_DATA_TYPE = 259,
-    IF = 260,
-    FOR = 261,
-    WHILE = 262,
-    ELSE = 263,
-    BEGIN_PROG = 264,
-    END_PROG = 265,
+    VOID = 260,
+    CONST = 261,
+    STRING_VALUE = 262,
+    CHARACTER_VALUE = 263,
+    INTEGER_VALUE = 264,
+    FLOAT_VALUE = 265,
     BOOL_VALUE = 266,
-    ASSIGN = 267,
-    ARITHMETIC_OPERATOR = 268,
-    RELATIONAL_OPERATOR = 269,
-    ARRAY_ID = 270,
-    IDENTIFIER = 271,
-    CHARACTER_VALUE = 272,
-    INTEGER_VALUE = 273,
-    FLOAT_VALUE = 274,
-    STRING_VALUE = 275,
-    CONST = 276,
-    BOOL_OPERATOR = 277,
-    VOID = 278,
+    IF = 267,
+    FOR = 268,
+    WHILE = 269,
+    ELSE = 270,
+    BEGIN_PROG = 271,
+    END_PROG = 272,
+    ASSIGN = 273,
+    ARITHMETIC_OPERATOR = 274,
+    RELATIONAL_OPERATOR = 275,
+    BOOL_OPERATOR = 276,
+    IDENTIFIER = 277,
+    ARRAY_ID = 278,
     ARRAY_PARAM_ID = 279
   };
 #endif
 /* Tokens.  */
 #define DATA_TYPE 258
 #define USR_DATA_TYPE 259
-#define IF 260
-#define FOR 261
-#define WHILE 262
-#define ELSE 263
-#define BEGIN_PROG 264
-#define END_PROG 265
+#define VOID 260
+#define CONST 261
+#define STRING_VALUE 262
+#define CHARACTER_VALUE 263
+#define INTEGER_VALUE 264
+#define FLOAT_VALUE 265
 #define BOOL_VALUE 266
-#define ASSIGN 267
-#define ARITHMETIC_OPERATOR 268
-#define RELATIONAL_OPERATOR 269
-#define ARRAY_ID 270
-#define IDENTIFIER 271
-#define CHARACTER_VALUE 272
-#define INTEGER_VALUE 273
-#define FLOAT_VALUE 274
-#define STRING_VALUE 275
-#define CONST 276
-#define BOOL_OPERATOR 277
-#define VOID 278
+#define IF 267
+#define FOR 268
+#define WHILE 269
+#define ELSE 270
+#define BEGIN_PROG 271
+#define END_PROG 272
+#define ASSIGN 273
+#define ARITHMETIC_OPERATOR 274
+#define RELATIONAL_OPERATOR 275
+#define BOOL_OPERATOR 276
+#define IDENTIFIER 277
+#define ARRAY_ID 278
 #define ARRAY_PARAM_ID 279
 
 /* Value type.  */
