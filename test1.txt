@@ -1,23 +1,106 @@
 int x;
 int y;
-int x, y, z;
-float aha[50];
-int x[50], z, y[5];
-int x := 7;
-int x := 5, z := 3;
-char x[3] := {'1','2','3'}, z[2] := {'1','2'};
-char nume := "ioana";
-bool aha := 1.5;
 float var;
 char c;
 string nume;
 string prenume;
 bool compara;
+
+int x, y, z;
+bool adevarat, fals;
+
+
+int x := 7;
+int x := 5, z := 3;
+bool da := true;
+
+float aha[50];
+char myArray[1];
+int x[50], z, y[5];
+char nume[10] := {'i','o','a'};
+char x[3] := {'1','2','3'}, z[2] := {'1','2'};
+
+
+
 const int x[50] := {2, 6, 3}, z := 7, y[5] := {0, 0, 0, 0, 0};
 const int pret := 50;
 const float cantitate1 := 1.2, cantitate2 := 00.00, cantitate3 := 3.5;
 const char ch := 'a';
-char myArray[1];
 
 
+int sum(bool x, char y, float z);
+void print(int x, bool z);
 
+int test(bool x, char z)
+{
+	int x;
+	int y;
+	int x, y, z;
+	float aha[50];
+};
+int test(bool x, char z)
+{
+	int x;
+	int y;
+	int x, y, z;
+	float aha[50];
+	int sum(bool x, char y, float z);
+
+	int test(bool x, char z)
+	{
+		int x;
+		int y;
+		int x, y, z;
+		float aha[50];
+
+		int test(bool x, char z)
+		{
+			int x;
+			int y;
+			int x, y, z;
+			float aha[50];
+		};
+
+		int x;
+		int y;
+		int x, y, z;
+		float aha[50];
+
+	};
+
+};
+
+int const_parameter(const int x);
+int const_paremeter2(bool t, const int x, char y);
+bool const_parameter3(bool t[], const int x[], const char y, string t);
+
+
+caps obiect {
+	float first;
+	float second;
+	const float third := 5.2;
+	float sum(int a, int b)
+	{
+		int z := 2;
+		char x[3] := {'1','2','3'}, z[2] := {'1','2'};
+		char nume[10] := {'i','o','a'};
+
+		int test(bool x, char z)
+		{
+			int x;
+			int y;
+			int x, y, z;
+			float aha[50];
+		};
+
+	};
+};
+
+
+obiect pasare;
+obiect pasare2 := {3.5, 5.5};
+
+obiect get_obiect(float x, float second, float third);
+int myFunction(obiect pasare1, obiect pasare2, bool zboara);
+int myFunction(obiect pasare1, obiect pasare2, bool zboara);
+obiect get_obiect(obiect y);

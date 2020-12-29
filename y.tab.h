@@ -68,7 +68,9 @@ extern int yydebug;
     FLOAT_VALUE = 274,
     STRING_VALUE = 275,
     CONST = 276,
-    BOOL_OPERATOR = 277
+    BOOL_OPERATOR = 277,
+    VOID = 278,
+    ARRAY_PARAM_ID = 279
   };
 #endif
 /* Tokens.  */
@@ -92,6 +94,8 @@ extern int yydebug;
 #define STRING_VALUE 275
 #define CONST 276
 #define BOOL_OPERATOR 277
+#define VOID 278
+#define ARRAY_PARAM_ID 279
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

@@ -10,10 +10,20 @@ char id2 := '?';
 END
 
 
+####### De facut (daca nu mai avem ce face cu timpul)
+caps punct
+{
+	int x, y;
+}
+const punct ORIGINE { x := 0, y := 0}
 
 
 
+///  LIST_OF_PARAMETER    | CONST IDENTIFIER IDENTIFIER                                            {/*conditie: primul identifier sa fie de tip caps*/}
+         				  | LIST_OF_PARAMETER ',' CONST IDENTIFIER IDENTIFIER                      {/*conditie: primul identifier sa fie de tip caps*/}
 
+
+##############
 
 functie:
 {
@@ -30,9 +40,9 @@ functie:
 
 
 
-	
+#################################################3
 
-
+// TESTE DECLARATII VARIABILE
 int x;
 int y;
 int x, y, z;
@@ -47,19 +57,81 @@ char c;
 string nume;
 string prenume;
 bool compara;
+
+//TESTE DECLARATII CONSTANTE
 const int x[50] := {2, 6, 3}, z := 7, y[5] := {0, 0, 0, 0, 0};
 const int pret := 50;
 const float cantitate1 := 1.2, cantitate2 := 00.00, cantitate3 := 3.5;
 const char ch := 'a';
 char myArray[1];
 
+caps punct
+{
+	int x, y;
+}
+const punct ORIGINE { x := 0, y := 0}
 
-caps obiect {
-	float first;
-	float second;
-	const float third := 5.2;
+
+
+// TESTE FUNCTII
+
+// declaratii
+int sum(bool x, char y, float z);
+void print(int x, bool z);
+int function_block_test(bool x, char z)
+{
+	int x;
+	int y;
+	int x, y, z;
+	float aha[50];
+}
+
+int test(bool x, char z)
+{
+	int x;
+	int y;
+	int x, y, z;
+	float aha[50];
 };
 
+int test_f1(bool x, char z)
+{
+	int x;
+	int y;
+	int x, y, z;
+	float aha[50];
+	int sum(bool x, char y, float z);
+
+	int test_f2(bool x, char z)
+	{
+		int x;
+		int y;
+		int x, y, z;
+		float aha[50];
+
+		int test_f3(bool x, char z)
+		{
+			int x;
+			int y;
+			int x, y, z;
+			float aha[50];
+		};
+
+		int x;
+		int y;
+		int x, y, z;
+		float aha[50];
+
+	};
+
+};
+
+// constante
+int const_parameter(const int x);
+int const_paremeter2(bool t, const int x, char y);
+bool const_parameter3(bool t[], const int x[], const char y, string t);
+
+// declaratii + bloc
 int sum(int x, int y)
 {
 	int a;
@@ -71,6 +143,30 @@ float avg(float x, float y)
 {
 	return (x + y) / 2;
 }
+
+caps obiect {
+	float first;
+	float second;
+	const float third := 5.2;
+	float sum(int a, int b)
+	{
+		int z := 2
+
+		begin
+		return a + b + z;
+		end
+
+	}
+};
+
+
+obiect pasare;
+obiect pasare2 := {3.5, 5.5};
+
+obiect get_obiect(float x, float second, float third);
+int myFunction(obiect pasare1, obiect pasare2, bool zboara);
+int myFunction(obiect pasare1, obiect pasare2, bool zboara);
+obiect get_obiect(obiect y);
 
 BEGIN
 
@@ -88,6 +184,8 @@ begin
 	end
 
 end 
+
+x := 5 + ids + function_call(5, id, function_call2());
 nume := "Aha";
 prenume := "Hah";
 prenume := nume + prenume;
@@ -98,6 +196,12 @@ obiect.second := 1.5;
 
 END
 
+int x :=3
+int y := 4
+sum(x, y);
+sum(3,4)
+sum(3, sum(3,4));
+
 
 
 __________________________________________________
@@ -106,6 +210,14 @@ TESTE GRESITE
 ##################################################
 
 const int x[50] := {2, 6, 3}, z := 7, y[5] := {0, 0, 0, 0, 0,};  // virgula de la finalul listei lui y
+
+void print(int x, z); // lipsa celui de-al doilea parametru
+
+
+caps empty_object
+{
+
+}; // lipsa unei declaratii in caps (caps gol);
 
 
 
