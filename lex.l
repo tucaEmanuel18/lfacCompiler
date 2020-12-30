@@ -12,23 +12,21 @@
 "for"                                          {printf("FOR "); return FOR;}
 "while"                                      {printf("WHILE "); return WHILE;}
 "else"                                        {printf("ELSE "); return ELSE;}
-"begin_prog"                  {printf("BEGIN "); return BEGIN_PROG;}
-"end_prog"                     {printf("END "); return END_PROG;}
 "true"|"false"                               {printf("BOOL_VALUE "); return BOOL_VALUE;}
+"eval"											{printf("EVAL "); return EVAL;}
 ":="                                             {printf("ASSIGN "); return ASSIGN;}
-"+"|"-"|"*"|"/"|"%"                          {printf("ARITHEMTIC_OPERATOR "); return ARITHMETIC_OPERATOR;}      
-">"|">="|"<"|"<="|"="|"!="            {printf("RELATIONAL_OPERATOR "); return RELATIONAL_OPERATOR;}
-"||"|"&&"|"!"                                {printf("BOOL_OPERATOR"); return BOOL_OPERATOR;}
+"||"|"&&"                               {printf("BOOL_OPERATOR"); return BOOL_OPERATOR;}
 [a-zA-Z][_a-zA-Z0-9]*(\[\])+				{printf("ARRAY_PARAM_ID"); return ARRAY_PARAM_ID;}
 [a-zA-Z][_a-zA-Z0-9]*(\[((0|([1-9][0-9]*))|([a-zA-Z][_a-zA-Z0-9]*))\])+    {printf("ARRAY_ID "); return ARRAY_ID;}
 [a-zA-Z][_a-zA-Z0-9]*                         {printf("IDENTIFIER "); return IDENTIFIER;}
 [\'].[\']                               {printf("CHARACTER_VALUE "); return CHARACTER_VALUE;}
-[+-]?0|([1-9][0-9]*)                            {printf("INTEGER_NUMBER "); return INTEGER_VALUE;}
-[+-]?[0-9]+\.[0-9]+                     {printf("FLOAT_NUMBER "); return FLOAT_VALUE;}
+([+-])?(0|([1-9][0-9]*))                            {printf("INTEGER_NUMBER "); return INTEGER_VALUE;}
+([+-])?[0-9]+\.[0-9]+                     {printf("FLOAT_NUMBER "); return FLOAT_VALUE;}
 [\"][ a-zA-Z0-9]+[\"]                            {printf("STRING_VALUE "); return STRING_VALUE;}
 [ \t] ;
-\n {yylineno++;}
+\n {yylineno++;}     
+">"|">="|"<"|"<="|"="|"!="            {printf("RELATIONAL_OPERATOR "); return RELATIONAL_OPERATOR;}
 ";"                                            {printf("\n"); return yytext[0]; }
-"{"|"}"|","|"("|")" 											{return yytext[0];}
+"+"|"-"|"*"|"/"|"%"|"{"|"}"|","|"("|")"|"!" 											{return yytext[0];}
 . {return yytext[0];}
 %%

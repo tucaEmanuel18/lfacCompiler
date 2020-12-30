@@ -62,15 +62,13 @@ extern int yydebug;
     FOR = 268,
     WHILE = 269,
     ELSE = 270,
-    BEGIN_PROG = 271,
-    END_PROG = 272,
-    ASSIGN = 273,
-    ARITHMETIC_OPERATOR = 274,
-    RELATIONAL_OPERATOR = 275,
-    BOOL_OPERATOR = 276,
-    IDENTIFIER = 277,
-    ARRAY_ID = 278,
-    ARRAY_PARAM_ID = 279
+    EVAL = 271,
+    ASSIGN = 272,
+    RELATIONAL_OPERATOR = 273,
+    BOOL_OPERATOR = 274,
+    IDENTIFIER = 275,
+    ARRAY_ID = 276,
+    ARRAY_PARAM_ID = 277
   };
 #endif
 /* Tokens.  */
@@ -87,15 +85,13 @@ extern int yydebug;
 #define FOR 268
 #define WHILE 269
 #define ELSE 270
-#define BEGIN_PROG 271
-#define END_PROG 272
-#define ASSIGN 273
-#define ARITHMETIC_OPERATOR 274
-#define RELATIONAL_OPERATOR 275
-#define BOOL_OPERATOR 276
-#define IDENTIFIER 277
-#define ARRAY_ID 278
-#define ARRAY_PARAM_ID 279
+#define EVAL 271
+#define ASSIGN 272
+#define RELATIONAL_OPERATOR 273
+#define BOOL_OPERATOR 274
+#define IDENTIFIER 275
+#define ARRAY_ID 276
+#define ARRAY_PARAM_ID 277
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

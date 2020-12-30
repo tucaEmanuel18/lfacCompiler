@@ -9,11 +9,16 @@ extern int yylex();
 %}
 %token DATA_TYPE USR_DATA_TYPE VOID CONST 
 %token STRING_VALUE CHARACTER_VALUE INTEGER_VALUE FLOAT_VALUE BOOL_VALUE
-%token IF FOR WHILE ELSE BEGIN_PROG END_PROG
-%token ASSIGN ARITHMETIC_OPERATOR RELATIONAL_OPERATOR BOOL_OPERATOR 
+%token IF FOR WHILE ELSE EVAL
+%token ASSIGN  RELATIONAL_OPERATOR BOOL_OPERATOR 
 %token IDENTIFIER ARRAY_ID ARRAY_PARAM_ID 
 %start CODE
-%left ARITHMETIC_OPERATOR
+%left '+' 
+%left '-' 
+%left '*'
+%left '/'
+%left RELATIONAL_OPERATOR 
+%left BOOL_OPERATOR 
 %%
 CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n");}
      ;
@@ -83,7 +88,7 @@ CODE_FUNCTION : DECLARATIONS
               | DECLARATIONS BLOCK
               ;
 
-BLOCK : BEGIN_PROG STATEMENT_LIST END_PROG
+BLOCK : '{' STATEMENT_LIST '}'
       ;
 
 STATEMENT_LIST : STATEMENT ';'
@@ -92,6 +97,8 @@ STATEMENT_LIST : STATEMENT ';'
 
 STATEMENT : ASSIGNEMENT
           | FUNCTION_CALL
+          | CONTROL_STATEMENT
+          | EVAL '(' EVAL_EXP ')'
           ;
 
 
@@ -106,7 +113,11 @@ BLOCK_EXPRESSION : VALUE
                   | ARRAY_ID
                   | FUNCTION_CALL
                   | '(' BLOCK_EXPRESSION ')' 
-                  | BLOCK_EXPRESSION ARITHMETIC_OPERATOR BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '+' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '-' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '*' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '/' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '%' BLOCK_EXPRESSION
                   ;
 
 CAPS_ID : ID '.' ID
@@ -118,12 +129,43 @@ ID : IDENTIFIER
    ;
 
 FUNCTION_CALL : IDENTIFIER '(' LIST_OF_CALL_PARAMETERS ')'
+              | IDENTIFIER '(' ')'
               | CAPS_ID '(' LIST_OF_CALL_PARAMETERS ')'
+              | CAPS_ID '(' ')'
               ;
 
 LIST_OF_CALL_PARAMETERS : BLOCK_EXPRESSION        
                         | LIST_OF_CALL_PARAMETERS ',' BLOCK_EXPRESSION
                         ;
+
+
+CONTROL_STATEMENT : IF '(' CONDITION ')' BLOCK
+                  | IF '(' CONDITION ')' BLOCK ELSE BLOCK
+                  | WHILE '(' CONDITION ')' BLOCK
+                  | FOR '(' ASSIGNEMENT ';' CONDITION ';' ASSIGNEMENT ')' BLOCK
+                  ;
+
+CONDITION :  SMALL_CONDITION
+          | '!' '(' CONDITION ')'
+          | '(' CONDITION ')'
+          | CONDITION BOOL_OPERATOR CONDITION
+          ;
+
+SMALL_CONDITION : BLOCK_EXPRESSION RELATIONAL_OPERATOR BLOCK_EXPRESSION
+                ;
+
+
+EVAL_EXP : EVAL_EXP '+' EVAL_EXP
+          | EVAL_EXP '-' EVAL_EXP
+          | EVAL_EXP '*' EVAL_EXP
+          | EVAL_EXP '/' EVAL_EXP
+          | '(' EVAL_EXP ')'
+          | EVAL_VALUE
+          ;
+
+EVAL_VALUE: INTEGER_VALUE
+          | FLOAT_VALUE
+          ;
 
 %%
 void yyerror(char * s){
