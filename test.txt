@@ -40,6 +40,16 @@ functie:
 
 
 
+
+ | VALUE
+| BLOCK_EXPRESSION ARITHMETIC_OPERATOR VALUE
+| IDENTIFIER
+| BLOCK_EXPRESSION ARITHMETIC_OPERATOR IDENTIFIER
+| FUNCTION_CALL
+| BLOCK_EXPRESSION ARITHMETIC_OPERATOR FUNCTION_CALL 
+;
+
+
 #################################################3
 
 // TESTE DECLARATII VARIABILE
@@ -178,7 +188,7 @@ y := x / 2 + z;
 y := x / ((2 + z) - 3);
 x := sum(x, y);
 x := sum(x, y) / 2 + z;
-a := true
+a := true;
 sum(x/(2+sum(5,4)), 2+sum(5,4))+ sum(2,5));
 
 id assign id + id(int, id)
@@ -192,6 +202,10 @@ begin
 	end
 
 end 
+
+
+a  +  x  + d
+
 
 x := 5 + ids + function_call(5, id, function_call2());
 nume := "Aha";

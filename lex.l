@@ -20,7 +20,7 @@
 ">"|">="|"<"|"<="|"="|"!="            {printf("RELATIONAL_OPERATOR "); return RELATIONAL_OPERATOR;}
 "||"|"&&"|"!"                                {printf("BOOL_OPERATOR"); return BOOL_OPERATOR;}
 [a-zA-Z][_a-zA-Z0-9]*(\[\])+				{printf("ARRAY_PARAM_ID"); return ARRAY_PARAM_ID;}
-[a-zA-Z][_a-zA-Z0-9]*(\[[1-9][0-9]*\])+                           {printf("ARRAY_ID "); return ARRAY_ID;}
+[a-zA-Z][_a-zA-Z0-9]*(\[((0|([1-9][0-9]*))|([a-zA-Z][_a-zA-Z0-9]*))\])+    {printf("ARRAY_ID "); return ARRAY_ID;}
 [a-zA-Z][_a-zA-Z0-9]*                         {printf("IDENTIFIER "); return IDENTIFIER;}
 [\'].[\']                               {printf("CHARACTER_VALUE "); return CHARACTER_VALUE;}
 [+-]?0|([1-9][0-9]*)                            {printf("INTEGER_NUMBER "); return INTEGER_VALUE;}

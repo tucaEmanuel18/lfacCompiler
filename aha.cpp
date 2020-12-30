@@ -1,9 +1,18 @@
 #include <iostream>
 
 using namespace std;
+
+class obj{
+public:
+	int arr[5];
+};
+
 int main()
 {
-	int x = (5);
-	printf("%d\n", x);
+	obj* myObj = new obj();
+	myObj->arr[0] = 1;
+	printf("%d\n", myObj->arr[0]);
 	return 0;
 }
+
+

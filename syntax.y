@@ -13,6 +13,7 @@ extern int yylex();
 %token ASSIGN ARITHMETIC_OPERATOR RELATIONAL_OPERATOR BOOL_OPERATOR 
 %token IDENTIFIER ARRAY_ID ARRAY_PARAM_ID 
 %start CODE
+%left ARITHMETIC_OPERATOR
 %%
 CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n");}
      ;
@@ -89,25 +90,41 @@ STATEMENT_LIST : STATEMENT ';'
                | STATEMENT_LIST STATEMENT ';'
                ;
 
-STATEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION
+STATEMENT : ASSIGNEMENT
           | FUNCTION_CALL
           ;
 
-BLOCK_EXPRESSION : '(' BLOCK_EXPRESSION ')'
-                | VALUE
-                | BLOCK_EXPRESSION ARITHMETIC_OPERATOR VALUE
-                | IDENTIFIER
-                | BLOCK_EXPRESSION ARITHMETIC_OPERATOR IDENTIFIER
-                | FUNCTION_CALL
-                | BLOCK_EXPRESSION ARITHMETIC_OPERATOR FUNCTION_CALL 
-                ;
+
+ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION
+            | ARRAY_ID ASSIGN BLOCK_EXPRESSION
+            | CAPS_ID ASSIGN BLOCK_EXPRESSION
+            ;
+
+BLOCK_EXPRESSION : VALUE
+                  | IDENTIFIER
+                  | CAPS_ID
+                  | ARRAY_ID
+                  | FUNCTION_CALL
+                  | '(' BLOCK_EXPRESSION ')' 
+                  | BLOCK_EXPRESSION ARITHMETIC_OPERATOR BLOCK_EXPRESSION
+                  ;
+
+CAPS_ID : ID '.' ID
+       | CAPS_ID '.' ID
+       ;
+
+ID : IDENTIFIER
+   | ARRAY_ID
+   ;
 
 FUNCTION_CALL : IDENTIFIER '(' LIST_OF_CALL_PARAMETERS ')'
+              | CAPS_ID '(' LIST_OF_CALL_PARAMETERS ')'
               ;
 
 LIST_OF_CALL_PARAMETERS : BLOCK_EXPRESSION        
                         | LIST_OF_CALL_PARAMETERS ',' BLOCK_EXPRESSION
                         ;
+
 %%
 void yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
