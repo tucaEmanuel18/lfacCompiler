@@ -51,53 +51,76 @@ extern int yydebug;
   {
     DATA_TYPE = 258,
     USR_DATA_TYPE = 259,
-    VOID = 260,
-    CONST = 261,
-    STRING_VALUE = 262,
-    CHARACTER_VALUE = 263,
-    INTEGER_VALUE = 264,
-    FLOAT_VALUE = 265,
-    BOOL_VALUE = 266,
-    IF = 267,
-    FOR = 268,
-    WHILE = 269,
-    ELSE = 270,
-    EVAL = 271,
-    ASSIGN = 272,
-    RELATIONAL_OPERATOR = 273,
-    BOOL_OPERATOR = 274,
-    ARITHMETIC_OPERATOR = 275,
-    IDENTIFIER = 276,
-    ARRAY_ID = 277,
-    ARRAY_PARAM_ID = 278
+    STRING_VALUE = 260,
+    CHARACTER_VALUE = 261,
+    INTEGER_VALUE = 262,
+    FLOAT_VALUE = 263,
+    BOOL_VALUE = 264,
+    IF = 265,
+    FOR = 266,
+    WHILE = 267,
+    ELSE = 268,
+    EVAL = 269,
+    ASSIGN = 270,
+    RELATIONAL_OPERATOR = 271,
+    BOOL_OPERATOR = 272,
+    ARITHMETIC_OPERATOR = 273,
+    IDENTIFIER = 274,
+    ARRAY_ID = 275,
+    ARRAY_PARAM_ID = 276,
+    VOID = 277,
+    CONST = 278
   };
 #endif
 /* Tokens.  */
 #define DATA_TYPE 258
 #define USR_DATA_TYPE 259
-#define VOID 260
-#define CONST 261
-#define STRING_VALUE 262
-#define CHARACTER_VALUE 263
-#define INTEGER_VALUE 264
-#define FLOAT_VALUE 265
-#define BOOL_VALUE 266
-#define IF 267
-#define FOR 268
-#define WHILE 269
-#define ELSE 270
-#define EVAL 271
-#define ASSIGN 272
-#define RELATIONAL_OPERATOR 273
-#define BOOL_OPERATOR 274
-#define ARITHMETIC_OPERATOR 275
-#define IDENTIFIER 276
-#define ARRAY_ID 277
-#define ARRAY_PARAM_ID 278
+#define STRING_VALUE 260
+#define CHARACTER_VALUE 261
+#define INTEGER_VALUE 262
+#define FLOAT_VALUE 263
+#define BOOL_VALUE 264
+#define IF 265
+#define FOR 266
+#define WHILE 267
+#define ELSE 268
+#define EVAL 269
+#define ASSIGN 270
+#define RELATIONAL_OPERATOR 271
+#define BOOL_OPERATOR 272
+#define ARITHMETIC_OPERATOR 273
+#define IDENTIFIER 274
+#define ARRAY_ID 275
+#define ARRAY_PARAM_ID 276
+#define VOID 277
+#define CONST 278
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 26 "syntax.y"
+
+  char* dataType;
+  int intVal;
+  char* strVal;
+  float floatVal;
+  char charVal;
+  struct expressionInfo{
+	    char *type;
+
+	    int intVal;
+	    float floatVal;
+	    char charVal;
+	    char *stringVal;
+  }info;
+
+   
+
+#line 121 "y.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

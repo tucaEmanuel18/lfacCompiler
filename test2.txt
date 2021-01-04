@@ -1,0 +1,7 @@
+int x := 7.6;
+int var1 := 4, var2 := 17, var3 := 8;
+int y;
+int z := 17;
+{
+	x := 5;
+}

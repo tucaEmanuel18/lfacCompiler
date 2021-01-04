@@ -4,7 +4,7 @@
 %}
 %option noyywrap
 %%
-"int"|"float"|"char"|"string"|"bool"                       {printf("DATA_TYPE "); return DATA_TYPE;}
+"int"|"float"|"char"|"string"|"bool"                       {printf("DATA_TYPE "); yylval.dataType=strdup(yytext); return DATA_TYPE;}
 "void"														{printf("VOID "); return VOID;}
 "const"                        {printf("CONST "); return CONST;}
 "caps"                        {printf("USR_DATA_TYPE "); return USR_DATA_TYPE;}
@@ -12,17 +12,18 @@
 "for"                                          {printf("FOR "); return FOR;}
 "while"                                      {printf("WHILE "); return WHILE;}
 "else"                                        {printf("ELSE "); return ELSE;}
-"true"|"false"                               {printf("BOOL_VALUE "); return BOOL_VALUE;}
+"true"										{printf("BOOL_VALUE"); yylval.intVal = 1; return BOOL_VALUE;}
+"false"                              		{printf("BOOL_VALUE"); yylval.intVal = 0; return BOOL_VALUE;}
 "eval"											{printf("EVAL "); return EVAL;}
 ":="                                             {printf("ASSIGN "); return ASSIGN;}
 "||"|"&&"                               {printf("BOOL_OPERATOR"); return BOOL_OPERATOR;}
 [a-zA-Z][_a-zA-Z0-9]*(\[\])+				{printf("ARRAY_PARAM_ID"); return ARRAY_PARAM_ID;}
 [a-zA-Z][_a-zA-Z0-9]*(\[((0|([1-9][0-9]*))|([a-zA-Z][_a-zA-Z0-9]*))\])+    {printf("ARRAY_ID "); return ARRAY_ID;}
-[a-zA-Z][_a-zA-Z0-9]*                         {printf("IDENTIFIER "); return IDENTIFIER;}
-[\'].[\']                               {printf("CHARACTER_VALUE "); return CHARACTER_VALUE;}
-([+-])?(0|([1-9][0-9]*))                            {printf("INTEGER_NUMBER "); yylval=atoi(yytext); return INTEGER_VALUE;}
-([+-])?[0-9]+\.[0-9]+                     {printf("FLOAT_NUMBER "); yylval=atof(yytext); return FLOAT_VALUE;}
-[\"][ a-zA-Z0-9]+[\"]                            {printf("STRING_VALUE "); return STRING_VALUE;}
+[a-zA-Z][_a-zA-Z0-9]*                         {printf("IDENTIFIER "); yylval.strVal=strdup(yytext); return IDENTIFIER;}
+[\'].[\']                               {printf("CHARACTER_VALUE "); yylval.charVal=yytext[1]; return CHARACTER_VALUE;}
+([+-])?(0|([1-9][0-9]*))                            {printf("INTEGER_NUMBER "); yylval.intVal=atoi(yytext); return INTEGER_VALUE;}
+([+-])?[0-9]+\.[0-9]+                     {printf("FLOAT_NUMBER "); yylval.floatVal=atof(yytext); return FLOAT_VALUE;}
+[\"][ a-zA-Z0-9]+[\"]                            {printf("STRING_VALUE "); yylval.strVal = strdup(yytext); return STRING_VALUE;}
 [ \t] ;
 \n {yylineno++;}   
 ">"|">="|"<"|"<="|"="|"!="            {printf("RELATIONAL_OPERATOR "); return RELATIONAL_OPERATOR;}

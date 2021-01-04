@@ -2,16 +2,18 @@
 
 using namespace std;
 
-class obj{
-public:
-	int arr[5];
-};
+
+
+
+int sum(int x, int y)
+{
+	return x + y;
+}
 
 int main()
 {
-	obj* myObj = new obj();
-	myObj->arr[0] = 1;
-	printf("%d\n", myObj->arr[0]);
+	int sum = 5;
+	
 	return 0;
 }
 

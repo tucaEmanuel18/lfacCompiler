@@ -1,17 +1,65 @@
 %{
 #include <stdio.h>
+#include <string.h>
+#include "symbolTable.h"
+
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 extern void yyerror();
 extern int yylex();
 
+extern char DataType[50];
+extern char AuxBuffer[50];
+void printList();
+extern void storeDataType(char* data_type);
+
+struct identifierList
+{
+	char* name;
+	char* value;
+	char set;
+};
+
 %}
-%token DATA_TYPE USR_DATA_TYPE VOID CONST 
-%token STRING_VALUE CHARACTER_VALUE INTEGER_VALUE FLOAT_VALUE BOOL_VALUE
+
+%union {
+  char* dataType;
+  int intVal;
+  char* strVal;
+  float floatVal;
+  char charVal;
+  struct expressionInfo{
+	    char *type;
+
+	    int intVal;
+	    float floatVal;
+	    char charVal;
+	    char *stringVal;
+  }info;
+
+   
+}
+
+%token <dataType> DATA_TYPE
+%token <strVal> USR_DATA_TYPE
+
+%token <strVal> STRING_VALUE 
+%token <charVal> CHARACTER_VALUE 
+%token <intVal> INTEGER_VALUE 
+%token <floatVal> FLOAT_VALUE 
+%token <intVal> BOOL_VALUE
+
 %token IF FOR WHILE ELSE EVAL
 %token ASSIGN  RELATIONAL_OPERATOR BOOL_OPERATOR ARITHMETIC_OPERATOR
-%token IDENTIFIER ARRAY_ID ARRAY_PARAM_ID 
+%token <strVal> IDENTIFIER
+%token ARRAY_ID ARRAY_PARAM_ID
+%token VOID CONST  
+
+
+%type<intVal> EVAL_EXP;
+%type<info> VALUE;
+
 %start CODE
 %left '+' 
 %left '-' 
@@ -22,7 +70,7 @@ extern int yylex();
 %left BOOL_OPERATOR 
 %left ARITHMETIC_OPERATOR
 %%
-CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n");}
+CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n"); printList();}
      ;
 DECLARATIONS : DECLARATION ';'
             | DECLARATIONS  DECLARATION ';'
@@ -31,7 +79,9 @@ DECLARATIONS : DECLARATION ';'
 DECLARATION : EXPRESSION
             ;
 
-EXPRESSION : DATA_TYPE LIST_OF_IDENTIFIERS
+EXPRESSION : DATA_TYPE  LIST_OF_IDENTIFIERS 	{ storeDataType($1); }
+											
+
           | CONST DATA_TYPE LIST_OF_CONST_IDENTIFIERS
           | USR_DATA_TYPE IDENTIFIER '{' DECLARATIONS '}'
           | IDENTIFIER IDENTIFIER                                                         {/*conditie: primul identifier sa fie de tip caps*/}
@@ -43,12 +93,102 @@ EXPRESSION : DATA_TYPE LIST_OF_IDENTIFIERS
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')'                              {/*conditie: primul identifier sa fie de tip caps*/}
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'        {/*conditie: primul identifier sa fie de tip caps*/}
           ;  
-
                       
-LIST_OF_IDENTIFIERS :  IDENTIFIER
-                    | LIST_OF_IDENTIFIERS ','   IDENTIFIER
-                    | IDENTIFIER ASSIGN VALUE
-                    | LIST_OF_IDENTIFIERS ',' IDENTIFIER ASSIGN VALUE
+LIST_OF_IDENTIFIERS :  IDENTIFIER { 
+									if(!lookupVar($1))
+									{
+									  insertVar(DataType, $1, "\0", false);
+									}
+									else
+									{
+										DuplicateIdentifierError($1);
+									}
+								  }
+
+                    | LIST_OF_IDENTIFIERS ','   IDENTIFIER 	{ 
+									if(!lookupVar($3))
+									{
+									  insertVar(DataType, $3, "\0", false);
+									}
+									else
+									{
+										DuplicateIdentifierError($3);
+									}
+								  }
+
+
+                    | IDENTIFIER ASSIGN VALUE { 
+									if(!lookupVar($1))
+									{
+										if(strcmp($3.type, "int") == 0)
+										{
+											intToString($3.intVal);
+										}
+										else if (strcmp($3.type, "float") == 0)
+										{
+											floatToString($3.floatVal);
+										}
+										else if (strcmp($3.type, "bool") == 0)
+										{
+											//valueToString($3.intVal);
+										}
+										else if (strcmp($3.type, "char") == 0)
+										{
+											//valueToString($3.charVal);
+										}
+										else if (strcmp($3.type, "str") == 0)
+										{
+											/*bzero(AuxBuffer, 50);
+											strcpy(AuxBuffer, $3.strVal);*/
+										}
+										
+									}
+									else
+									{
+										DuplicateIdentifierError($1);
+									}
+
+									insertVar(DataType, $1, AuxBuffer, true);
+								  }
+
+
+                    | LIST_OF_IDENTIFIERS ',' IDENTIFIER ASSIGN VALUE {
+                    				if(!lookupVar($3))
+									{
+										if(strcmp($5.type, "int") == 0)
+										{
+											intToString($5.intVal);
+										}
+										else if (strcmp($5.type, "float") == 0)
+										{
+											//floatToString($5.floatVal);
+											printf("\nFloatVAL = %f\n", $5.floatVal);
+											fflush(stdout);
+										}
+										else if (strcmp($5.type, "bool") == 0)
+										{
+											;//valueToString($5.intVal);
+										}
+										else if (strcmp($5.type, "char") == 0)
+										{
+											;//valueToString($5.charVal);
+										}
+										else if (strcmp($5.type, "str") == 0)
+										{
+											;/*bzero(AuxBuffer, 50);
+											strcpy(AuxBuffer, $5.strVal);*/
+										}
+
+
+									  printf("\nOut DataType  = %s\n", DataType);
+									  fflush(stdout);
+									  insertVar(DataType, $3, AuxBuffer, true);
+									}
+									else
+									{
+										DuplicateIdentifierError($3);
+									}
+								  }
                     | ARRAY_ID
                     | LIST_OF_IDENTIFIERS ',' ARRAY_ID
                     | ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
@@ -67,11 +207,11 @@ LIST_OF_VALUES :  LIST_OF_VALUES ',' VALUE
               | VALUE   
               ;
 
-VALUE : INTEGER_VALUE                           
-     | FLOAT_VALUE
-     | CHARACTER_VALUE
-     | STRING_VALUE
-     | BOOL_VALUE;
+VALUE : INTEGER_VALUE     {$$.type="int", $$.intVal=$1;}                   
+     | FLOAT_VALUE		  {$$.type="float", $$.floatVal=$1;}
+     | CHARACTER_VALUE	  {$$.type="char", $$.charVal=$1;}
+     | STRING_VALUE		  {$$.type="string", $$.stringVal=$1;}
+     | BOOL_VALUE		  {$$.type="bool", $$.intVal=$1;}
      ; 
 
 LIST_OF_PARAMETERS : DATA_TYPE IDENTIFIER
@@ -100,7 +240,7 @@ STATEMENT_LIST : STATEMENT ';'
 STATEMENT : ASSIGNEMENT
           | FUNCTION_CALL
           | CONTROL_STATEMENT
-          | EVAL '(' EVAL_EXP ')' {$$=$3; printf("valoarea expresiei: %d\n", $$);}
+          | EVAL '(' EVAL_EXP ')' {printf("valoarea expresiei: %d\n", $3);}
           ;
 
 
