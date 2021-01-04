@@ -78,7 +78,7 @@ extern int yylineno;
 extern void yyerror();
 extern int yylex();
 
-extern char DataType[50];
+extern char* DataType;
 extern char AuxBuffer[50];
 void printList();
 extern void storeDataType(char* data_type);
@@ -586,14 +586,14 @@ static const yytype_int16 yyrline[] =
 {
        0,    73,    73,    75,    76,    79,    82,    85,    86,    87,
       88,    89,    90,    91,    92,    93,    94,    97,   108,   120,
-     155,   192,   193,   194,   195,   198,   199,   200,   201,   206,
-     207,   210,   211,   212,   213,   214,   217,   218,   219,   220,
-     221,   222,   223,   224,   225,   226,   229,   230,   233,   236,
-     237,   240,   241,   242,   243,   247,   248,   249,   252,   253,
-     254,   255,   256,   257,   258,   259,   260,   261,   262,   265,
-     266,   269,   270,   273,   274,   275,   276,   279,   280,   284,
-     285,   286,   287,   290,   291,   292,   293,   296,   299,   300,
-     301,   302,   303,   304
+     155,   189,   190,   191,   192,   195,   196,   197,   198,   203,
+     204,   207,   208,   209,   210,   211,   214,   215,   216,   217,
+     218,   219,   220,   221,   222,   223,   226,   227,   230,   233,
+     234,   237,   238,   239,   240,   244,   245,   246,   249,   250,
+     251,   252,   253,   254,   255,   256,   257,   258,   259,   262,
+     263,   266,   267,   270,   271,   272,   273,   276,   277,   281,
+     282,   283,   284,   287,   288,   289,   290,   293,   296,   297,
+     298,   299,   300,   301
 };
 #endif
 
@@ -1579,7 +1579,7 @@ yyreduce:
                                   { 
 									if(!lookupVar((yyvsp[0].strVal)))
 									{
-									  insertVar(DataType, (yyvsp[0].strVal), "\0", false);
+									  insertVar((yyvsp[0].strVal), "\0", false, false);
 									}
 									else
 									{
@@ -1594,7 +1594,7 @@ yyreduce:
                                                                 { 
 									if(!lookupVar((yyvsp[0].strVal)))
 									{
-									  insertVar(DataType, (yyvsp[0].strVal), "\0", false);
+									  insertVar((yyvsp[0].strVal), "\0", false, true);
 									}
 									else
 									{
@@ -1637,7 +1637,7 @@ yyreduce:
 										DuplicateIdentifierError((yyvsp[-2].strVal));
 									}
 
-									insertVar(DataType, (yyvsp[-2].strVal), AuxBuffer, true);
+									insertVar((yyvsp[-2].strVal), AuxBuffer, true, false);
 								  }
 #line 1643 "y.tab.c"
     break;
@@ -1671,105 +1671,102 @@ yyreduce:
 											strcpy(AuxBuffer, $5.strVal);*/
 										}
 
-
-									  printf("\nOut DataType  = %s\n", DataType);
-									  fflush(stdout);
-									  insertVar(DataType, (yyvsp[-2].strVal), AuxBuffer, true);
+									  insertVar((yyvsp[-2].strVal), AuxBuffer, true, true);
 									}
 									else
 									{
 										DuplicateIdentifierError((yyvsp[-2].strVal));
 									}
 								  }
-#line 1685 "y.tab.c"
+#line 1682 "y.tab.c"
     break;
 
   case 31:
-#line 210 "syntax.y"
+#line 207 "syntax.y"
                           {(yyval.info).type="int", (yyval.info).intVal=(yyvsp[0].intVal);}
-#line 1691 "y.tab.c"
+#line 1688 "y.tab.c"
     break;
 
   case 32:
-#line 211 "syntax.y"
+#line 208 "syntax.y"
                                   {(yyval.info).type="float", (yyval.info).floatVal=(yyvsp[0].floatVal);}
-#line 1697 "y.tab.c"
+#line 1694 "y.tab.c"
     break;
 
   case 33:
-#line 212 "syntax.y"
+#line 209 "syntax.y"
                           {(yyval.info).type="char", (yyval.info).charVal=(yyvsp[0].charVal);}
-#line 1703 "y.tab.c"
+#line 1700 "y.tab.c"
     break;
 
   case 34:
-#line 213 "syntax.y"
+#line 210 "syntax.y"
                                   {(yyval.info).type="string", (yyval.info).stringVal=(yyvsp[0].strVal);}
-#line 1709 "y.tab.c"
+#line 1706 "y.tab.c"
     break;
 
   case 35:
-#line 214 "syntax.y"
+#line 211 "syntax.y"
                                   {(yyval.info).type="bool", (yyval.info).intVal=(yyvsp[0].intVal);}
-#line 1715 "y.tab.c"
+#line 1712 "y.tab.c"
     break;
 
   case 44:
-#line 225 "syntax.y"
+#line 222 "syntax.y"
                                                                                             {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1721 "y.tab.c"
+#line 1718 "y.tab.c"
     break;
 
   case 45:
-#line 226 "syntax.y"
+#line 223 "syntax.y"
                                                                                              {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1727 "y.tab.c"
+#line 1724 "y.tab.c"
     break;
 
   case 54:
-#line 243 "syntax.y"
+#line 240 "syntax.y"
                                   {printf("valoarea expresiei: %d\n", (yyvsp[-1].intVal));}
-#line 1733 "y.tab.c"
+#line 1730 "y.tab.c"
     break;
 
   case 88:
-#line 299 "syntax.y"
+#line 296 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)+(yyvsp[0].intVal); printf("e->e+e | %d + %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1739 "y.tab.c"
+#line 1736 "y.tab.c"
     break;
 
   case 89:
-#line 300 "syntax.y"
+#line 297 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)-(yyvsp[0].intVal); printf("e->e-e | %d - %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1745 "y.tab.c"
+#line 1742 "y.tab.c"
     break;
 
   case 90:
-#line 301 "syntax.y"
+#line 298 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)*(yyvsp[0].intVal); printf("e->e*e | %d * %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1751 "y.tab.c"
+#line 1748 "y.tab.c"
     break;
 
   case 91:
-#line 302 "syntax.y"
+#line 299 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)/(yyvsp[0].intVal); printf("e->e/e | %d / %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1757 "y.tab.c"
+#line 1754 "y.tab.c"
     break;
 
   case 92:
-#line 303 "syntax.y"
+#line 300 "syntax.y"
                                         {(yyval.intVal)= (yyvsp[-1].intVal);}
-#line 1763 "y.tab.c"
+#line 1760 "y.tab.c"
     break;
 
   case 93:
-#line 304 "syntax.y"
+#line 301 "syntax.y"
                                                         {(yyval.intVal)=(yyvsp[0].intVal);}
-#line 1769 "y.tab.c"
+#line 1766 "y.tab.c"
     break;
 
 
-#line 1773 "y.tab.c"
+#line 1770 "y.tab.c"
 
       default: break;
     }
@@ -2001,7 +1998,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 307 "syntax.y"
+#line 304 "syntax.y"
 
 void yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);

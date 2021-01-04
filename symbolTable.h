@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 extern int yylineno;
-char DataType[50];
+char* DataType;
 char AuxBuffer[50];
 /*struct function
 {
@@ -64,14 +64,17 @@ bool lookupVar(char *name) {
 
 
 
-void insertVar(char* dataType, char* symbolName, char* value, bool set)
+void insertVar(char* symbolName, char* value, bool set, bool list)
 {
 
 	var *nod = (var *) malloc(sizeof(var));
 
-	printf("\nIn DataType  = %s\n", dataType);
-	fflush(stdout);
-	nod->type = dataType;
+	if(!list)
+	{
+		DataType = (char*) malloc(sizeof(char) * 25);
+	}
+	
+	nod->type = DataType;
 	nod->name = symbolName;
 
 	strcpy(nod->value, value);
@@ -93,14 +96,13 @@ void insertVar(char* dataType, char* symbolName, char* value, bool set)
 
 void storeDataType(char* data_type)
 {
-	int i=0;
-	bzero(DataType, 50);
-    while(data_type[i] != '\0')
+    while(*data_type != '\0')
     {
-        DataType[i] = data_type[i];
-        i++;
+        memcpy(DataType, data_type, 1);
+        DataType ++;
+        data_type ++;
 	}
-	DataType[i] = '\0';
+	
 }
 
 

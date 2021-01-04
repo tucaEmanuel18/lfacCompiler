@@ -9,7 +9,7 @@ extern int yylineno;
 extern void yyerror();
 extern int yylex();
 
-extern char DataType[50];
+extern char* DataType;
 extern char AuxBuffer[50];
 void printList();
 extern void storeDataType(char* data_type);
@@ -97,7 +97,7 @@ EXPRESSION : DATA_TYPE  LIST_OF_IDENTIFIERS 	{ storeDataType($1); }
 LIST_OF_IDENTIFIERS :  IDENTIFIER { 
 									if(!lookupVar($1))
 									{
-									  insertVar(DataType, $1, "\0", false);
+									  insertVar($1, "\0", false, false);
 									}
 									else
 									{
@@ -108,7 +108,7 @@ LIST_OF_IDENTIFIERS :  IDENTIFIER {
                     | LIST_OF_IDENTIFIERS ','   IDENTIFIER 	{ 
 									if(!lookupVar($3))
 									{
-									  insertVar(DataType, $3, "\0", false);
+									  insertVar($3, "\0", false, true);
 									}
 									else
 									{
@@ -148,7 +148,7 @@ LIST_OF_IDENTIFIERS :  IDENTIFIER {
 										DuplicateIdentifierError($1);
 									}
 
-									insertVar(DataType, $1, AuxBuffer, true);
+									insertVar($1, AuxBuffer, true, false);
 								  }
 
 
@@ -179,10 +179,7 @@ LIST_OF_IDENTIFIERS :  IDENTIFIER {
 											strcpy(AuxBuffer, $5.strVal);*/
 										}
 
-
-									  printf("\nOut DataType  = %s\n", DataType);
-									  fflush(stdout);
-									  insertVar(DataType, $3, AuxBuffer, true);
+									  insertVar($3, AuxBuffer, true, true);
 									}
 									else
 									{
