@@ -20,13 +20,13 @@
 [a-zA-Z][_a-zA-Z0-9]*(\[((0|([1-9][0-9]*))|([a-zA-Z][_a-zA-Z0-9]*))\])+    {printf("ARRAY_ID "); return ARRAY_ID;}
 [a-zA-Z][_a-zA-Z0-9]*                         {printf("IDENTIFIER "); return IDENTIFIER;}
 [\'].[\']                               {printf("CHARACTER_VALUE "); return CHARACTER_VALUE;}
-([+-])?(0|([1-9][0-9]*))                            {printf("INTEGER_NUMBER "); return INTEGER_VALUE;}
-([+-])?[0-9]+\.[0-9]+                     {printf("FLOAT_NUMBER "); return FLOAT_VALUE;}
+([+-])?(0|([1-9][0-9]*))                            {printf("INTEGER_NUMBER "); yylval=atoi(yytext); return INTEGER_VALUE;}
+([+-])?[0-9]+\.[0-9]+                     {printf("FLOAT_NUMBER "); yylval=atof(yytext); return FLOAT_VALUE;}
 [\"][ a-zA-Z0-9]+[\"]                            {printf("STRING_VALUE "); return STRING_VALUE;}
 [ \t] ;
-\n {yylineno++;}     
+\n {yylineno++;}   
 ">"|">="|"<"|"<="|"="|"!="            {printf("RELATIONAL_OPERATOR "); return RELATIONAL_OPERATOR;}
 ";"                                            {printf("\n"); return yytext[0]; }
-"+"|"-"|"*"|"/"|"%"|"{"|"}"|","|"("|")"|"!" 											{return yytext[0];}
+"+"|"-"|"*"|"/"|"%"|"{"|"}"|","|"("|")"|"!" 											{ return yytext[0]; }
 . {return yytext[0];}
 %%

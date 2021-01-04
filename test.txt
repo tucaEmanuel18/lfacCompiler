@@ -23,6 +23,30 @@ const punct ORIGINE { x := 0, y := 0}
          				  | LIST_OF_PARAMETER ',' CONST IDENTIFIER IDENTIFIER                      {/*conditie: primul identifier sa fie de tip caps*/}
 
 
+
+
+
+EVAL_EXP : EVAL_EXP '+' EVAL_EXP
+          | EVAL_EXP '-' EVAL_EXP
+          | EVAL_EXP '*' EVAL_EXP
+          | EVAL_EXP '/' EVAL_EXP
+          | '(' EVAL_EXP ')'
+          | EVAL_VALUE
+          ;
+
+EVAL_VALUE: INTEGER_VALUE
+          | FLOAT_VALUE
+          ;
+
+
+    | BLOCK_EXPRESSION '+' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '-' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '*' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '/' BLOCK_EXPRESSION
+                  | BLOCK_EXPRESSION '%' BLOCK_EXPRESSION
+
+  
+
 ##############
 
 functie:
@@ -40,10 +64,8 @@ functie:
 
 
 
- | '!' CONDITION
-          | '(' CONDITION ')'
-          | CONDITION BOOL_OPERATOR CONDITION
-          ;
+	eval(5 + 0.2 * ( 6 + 11 ) / (12 / 4 * ( 11 - 2)));
+	eval(5 + 0.2 * 17 / 27)
 
 
 
@@ -198,7 +220,7 @@ begin
 		y := y + 1;
 	end
 
-end 
+end;
 
 
 a  +  x  + d

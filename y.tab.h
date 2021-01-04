@@ -66,9 +66,10 @@ extern int yydebug;
     ASSIGN = 272,
     RELATIONAL_OPERATOR = 273,
     BOOL_OPERATOR = 274,
-    IDENTIFIER = 275,
-    ARRAY_ID = 276,
-    ARRAY_PARAM_ID = 277
+    ARITHMETIC_OPERATOR = 275,
+    IDENTIFIER = 276,
+    ARRAY_ID = 277,
+    ARRAY_PARAM_ID = 278
   };
 #endif
 /* Tokens.  */
@@ -89,9 +90,10 @@ extern int yydebug;
 #define ASSIGN 272
 #define RELATIONAL_OPERATOR 273
 #define BOOL_OPERATOR 274
-#define IDENTIFIER 275
-#define ARRAY_ID 276
-#define ARRAY_PARAM_ID 277
+#define ARITHMETIC_OPERATOR 275
+#define IDENTIFIER 276
+#define ARRAY_ID 277
+#define ARRAY_PARAM_ID 278
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
