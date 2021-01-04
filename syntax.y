@@ -9,10 +9,34 @@ extern int yylineno;
 extern void yyerror();
 extern int yylex();
 
-extern char* DataType;
+extern char DataType[50];
 extern char AuxBuffer[50];
+extern char Scope[50];
 void printList();
 extern void storeDataType(char* data_type);
+#define StringValue(nrArg){\
+			if(strcmp(nrArg.type, "int") == 0)\
+			{\
+			intToString(nrArg.intVal);\
+			}\
+			else if (strcmp(nrArg.type, "float") == 0)\
+			{\
+				floatToString(nrArg.floatVal);\
+			}\
+			else if (strcmp(nrArg.type, "bool") == 0)\
+			{\
+				intToString(nrArg.intVal);\
+			}\
+			else if (strcmp(nrArg.type, "char") == 0)\
+			{\
+				charToString(nrArg.charVal);\
+			}\
+			else if (strcmp(nrArg.type, "string") == 0)\
+			{\
+				bzero(AuxBuffer, 50);\
+				strcpy(AuxBuffer, nrArg.strVal);\
+			}\
+		}
 
 struct identifierList
 {
@@ -35,7 +59,7 @@ struct identifierList
 	    int intVal;
 	    float floatVal;
 	    char charVal;
-	    char *stringVal;
+	    char *strVal;
   }info;
 
    
@@ -49,11 +73,11 @@ struct identifierList
 %token <intVal> INTEGER_VALUE 
 %token <floatVal> FLOAT_VALUE 
 %token <intVal> BOOL_VALUE
+%token <strVal> IDENTIFIER
 
 %token IF FOR WHILE ELSE EVAL
 %token ASSIGN  RELATIONAL_OPERATOR BOOL_OPERATOR ARITHMETIC_OPERATOR
-%token <strVal> IDENTIFIER
-%token ARRAY_ID ARRAY_PARAM_ID
+%token <strVal> ARRAY_ID ARRAY_PARAM_ID
 %token VOID CONST  
 
 
@@ -70,7 +94,7 @@ struct identifierList
 %left BOOL_OPERATOR 
 %left ARITHMETIC_OPERATOR
 %%
-CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n"); printList();}
+CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n"); printVarList(); printArrayList();}
      ;
 DECLARATIONS : DECLARATION ';'
             | DECLARATIONS  DECLARATION ';'
@@ -79,10 +103,76 @@ DECLARATIONS : DECLARATION ';'
 DECLARATION : EXPRESSION
             ;
 
-EXPRESSION : DATA_TYPE  LIST_OF_IDENTIFIERS 	{ storeDataType($1); }
-											
+EXPRESSION : DATA_TYPE  IDENTIFIER { 
+									if(!lookupVar($2))
+									{
+										insertVar($1, $2, "\0", Scope, false, false); 
+									}
+									else
+									{
+										DuplicateIdentifierError($2);
+									}
+								}
+		  |  DATA_TYPE IDENTIFIER ASSIGN VALUE { 
+		  											if(!lookupVar($2))
+		  											{
+		  												if(strcmp($1, $4.type) == 0)
+		  												{
+			  												StringValue($4);
+				  											insertVar($1, $2, AuxBuffer, Scope, true, false);
+		  												}
+		  												else
+		  												{
+		  													AssignementError($2, $1, $4.type);
+		  												}
+												
+			  										}
+			  										else
+			  										{
+			  											DuplicateIdentifierError($2);
+			  										}
+					  								
+		  										}
+          | CONST DATA_TYPE IDENTIFIER ASSIGN VALUE {
+          													if(!lookupVar($3))
+				  											{
+				  												if(strcmp($2, $5.type) == 0)
+				  												{
+					  												StringValue($5);
+						  											insertVar($2, $3, AuxBuffer, Scope, true, true);
+				  												}
+				  												else
+				  												{
+				  													AssignementError($3, $2, $5.type);
+				  												}
+														
+					  										}
+					  										else
+					  										{
+					  											DuplicateIdentifierError($3);
+					  										}
 
-          | CONST DATA_TYPE LIST_OF_CONST_IDENTIFIERS
+          											}
+          |  DATA_TYPE ARRAY_ID {
+          							if(!lookupArray($2))
+          							{
+          								char* name;
+          								printf("\nOK!\n");
+          								strcpy(name, extractName($2));
+          								printf("\nOK1\n");
+          								fflush(stdout);
+          								int maxSize =extractMaxSize($2);
+          								printf("\nOK2\n");
+          								fflush(stdout);
+          								insertArray($1, name, maxSize, Scope, false);
+          							}
+          							else
+          							{
+          								DuplicateIdentifierError($2);
+          							}
+          						}
+          |  DATA_TYPE ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
+          | CONST DATA_TYPE ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
           | USR_DATA_TYPE IDENTIFIER '{' DECLARATIONS '}'
           | IDENTIFIER IDENTIFIER                                                         {/*conditie: primul identifier sa fie de tip caps*/}
           | IDENTIFIER IDENTIFIER ASSIGN '{' LIST_OF_VALUES '}'                           {/*conditie: primul identifier sa fie de tip caps*/}
@@ -93,110 +183,9 @@ EXPRESSION : DATA_TYPE  LIST_OF_IDENTIFIERS 	{ storeDataType($1); }
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')'                              {/*conditie: primul identifier sa fie de tip caps*/}
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'        {/*conditie: primul identifier sa fie de tip caps*/}
           ;  
-                      
-LIST_OF_IDENTIFIERS :  IDENTIFIER { 
-									if(!lookupVar($1))
-									{
-									  insertVar($1, "\0", false, false);
-									}
-									else
-									{
-										DuplicateIdentifierError($1);
-									}
-								  }
 
-                    | LIST_OF_IDENTIFIERS ','   IDENTIFIER 	{ 
-									if(!lookupVar($3))
-									{
-									  insertVar($3, "\0", false, true);
-									}
-									else
-									{
-										DuplicateIdentifierError($3);
-									}
-								  }
-
-
-                    | IDENTIFIER ASSIGN VALUE { 
-									if(!lookupVar($1))
-									{
-										if(strcmp($3.type, "int") == 0)
-										{
-											intToString($3.intVal);
-										}
-										else if (strcmp($3.type, "float") == 0)
-										{
-											floatToString($3.floatVal);
-										}
-										else if (strcmp($3.type, "bool") == 0)
-										{
-											//valueToString($3.intVal);
-										}
-										else if (strcmp($3.type, "char") == 0)
-										{
-											//valueToString($3.charVal);
-										}
-										else if (strcmp($3.type, "str") == 0)
-										{
-											/*bzero(AuxBuffer, 50);
-											strcpy(AuxBuffer, $3.strVal);*/
-										}
-										
-									}
-									else
-									{
-										DuplicateIdentifierError($1);
-									}
-
-									insertVar($1, AuxBuffer, true, false);
-								  }
-
-
-                    | LIST_OF_IDENTIFIERS ',' IDENTIFIER ASSIGN VALUE {
-                    				if(!lookupVar($3))
-									{
-										if(strcmp($5.type, "int") == 0)
-										{
-											intToString($5.intVal);
-										}
-										else if (strcmp($5.type, "float") == 0)
-										{
-											//floatToString($5.floatVal);
-											printf("\nFloatVAL = %f\n", $5.floatVal);
-											fflush(stdout);
-										}
-										else if (strcmp($5.type, "bool") == 0)
-										{
-											;//valueToString($5.intVal);
-										}
-										else if (strcmp($5.type, "char") == 0)
-										{
-											;//valueToString($5.charVal);
-										}
-										else if (strcmp($5.type, "str") == 0)
-										{
-											;/*bzero(AuxBuffer, 50);
-											strcpy(AuxBuffer, $5.strVal);*/
-										}
-
-									  insertVar($3, AuxBuffer, true, true);
-									}
-									else
-									{
-										DuplicateIdentifierError($3);
-									}
-								  }
-                    | ARRAY_ID
-                    | LIST_OF_IDENTIFIERS ',' ARRAY_ID
-                    | ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
-                    | LIST_OF_IDENTIFIERS ',' ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
-                    ;
-                    
-LIST_OF_CONST_IDENTIFIERS : IDENTIFIER ASSIGN VALUE
-                       | ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
-                       | LIST_OF_CONST_IDENTIFIERS ',' IDENTIFIER ASSIGN VALUE
-                       | LIST_OF_CONST_IDENTIFIERS ',' ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
-                       ;  
+                   
+                     
 
 
 
@@ -207,7 +196,7 @@ LIST_OF_VALUES :  LIST_OF_VALUES ',' VALUE
 VALUE : INTEGER_VALUE     {$$.type="int", $$.intVal=$1;}                   
      | FLOAT_VALUE		  {$$.type="float", $$.floatVal=$1;}
      | CHARACTER_VALUE	  {$$.type="char", $$.charVal=$1;}
-     | STRING_VALUE		  {$$.type="string", $$.stringVal=$1;}
+     | STRING_VALUE		  {$$.type="string", $$.strVal=$1;}
      | BOOL_VALUE		  {$$.type="bool", $$.intVal=$1;}
      ; 
 

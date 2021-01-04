@@ -56,16 +56,16 @@ extern int yydebug;
     INTEGER_VALUE = 262,
     FLOAT_VALUE = 263,
     BOOL_VALUE = 264,
-    IF = 265,
-    FOR = 266,
-    WHILE = 267,
-    ELSE = 268,
-    EVAL = 269,
-    ASSIGN = 270,
-    RELATIONAL_OPERATOR = 271,
-    BOOL_OPERATOR = 272,
-    ARITHMETIC_OPERATOR = 273,
-    IDENTIFIER = 274,
+    IDENTIFIER = 265,
+    IF = 266,
+    FOR = 267,
+    WHILE = 268,
+    ELSE = 269,
+    EVAL = 270,
+    ASSIGN = 271,
+    RELATIONAL_OPERATOR = 272,
+    BOOL_OPERATOR = 273,
+    ARITHMETIC_OPERATOR = 274,
     ARRAY_ID = 275,
     ARRAY_PARAM_ID = 276,
     VOID = 277,
@@ -80,16 +80,16 @@ extern int yydebug;
 #define INTEGER_VALUE 262
 #define FLOAT_VALUE 263
 #define BOOL_VALUE 264
-#define IF 265
-#define FOR 266
-#define WHILE 267
-#define ELSE 268
-#define EVAL 269
-#define ASSIGN 270
-#define RELATIONAL_OPERATOR 271
-#define BOOL_OPERATOR 272
-#define ARITHMETIC_OPERATOR 273
-#define IDENTIFIER 274
+#define IDENTIFIER 265
+#define IF 266
+#define FOR 267
+#define WHILE 268
+#define ELSE 269
+#define EVAL 270
+#define ASSIGN 271
+#define RELATIONAL_OPERATOR 272
+#define BOOL_OPERATOR 273
+#define ARITHMETIC_OPERATOR 274
 #define ARRAY_ID 275
 #define ARRAY_PARAM_ID 276
 #define VOID 277
@@ -99,7 +99,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 26 "syntax.y"
+#line 50 "syntax.y"
 
   char* dataType;
   int intVal;
@@ -112,7 +112,7 @@ union YYSTYPE
 	    int intVal;
 	    float floatVal;
 	    char charVal;
-	    char *stringVal;
+	    char *strVal;
   }info;
 
    

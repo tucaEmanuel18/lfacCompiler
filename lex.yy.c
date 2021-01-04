@@ -815,7 +815,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 7 "lex.l"
-{printf("DATA_TYPE "); yylval.dataType = strdup(yytext); return DATA_TYPE;}
+{printf("DATA_TYPE "); yylval.dataType=strdup(yytext); return DATA_TYPE;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
@@ -885,7 +885,7 @@ YY_RULE_SETUP
 case 15:
 YY_RULE_SETUP
 #line 21 "lex.l"
-{printf("ARRAY_ID "); return ARRAY_ID;}
+{printf("ARRAY_ID "); yylval.strVal = strdup(yytext); return ARRAY_ID;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP

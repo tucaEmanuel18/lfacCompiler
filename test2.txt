@@ -1,9 +1,18 @@
 float x := 7.6;
-int var1 := 4, var2 := 17, var3 := 8;
+int var1 := 4;
 int y;
-float fvar1 := 4, fvar2 := 17, fvar3 := 8;
-int bug := 5.6;
+float fvar1 := 4.0;
+const float const_fvar1 := 4.0;
+bool adevarat := true;
+bool fals := false;
+char c;
+char ch := 'd';
+const char ch_const := 'd';
+string name := "Emanuel";
 int z := 17;
+
+int x[20];
+int y[10];
 {
 	x := 5;
 }

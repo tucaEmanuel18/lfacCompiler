@@ -1,0 +1,226 @@
+int x;
+int y;
+float var;
+char c;
+string nume;
+string prenume;
+bool compara;
+
+int x;
+bool adevarat;
+
+
+int x := 7;
+int x := 5;
+bool da := true;
+
+float aha[50];
+char myArray[1];
+int x[50];
+char nume[10] := {'i','o','a'};
+char x[3] := {'1','2','3'};
+
+
+
+const int x[50] := {2, 6, 3};
+const int pret := 50;
+const float cantitate1 := 1.2;
+const char ch := 'a';
+
+
+int sum(bool x, char y, float z);
+void print(int x, bool z);
+
+int test(bool x, char z)
+{
+	int x;
+	int y;
+	int x;
+	float aha[50];
+};
+int test(bool x, char z)
+{
+	int x;
+	int y;
+	int x;
+	float aha[50];
+	int sum(bool x, char y, float z);
+
+	int test(bool x, char z)
+	{
+		int x;
+		int y;
+		int x;
+		float aha[50];
+
+		int test(bool x, char z)
+		{
+			int x;
+			int y;
+			int x;
+			float aha[50];
+		};
+
+		int x;
+		int y;
+		int z;
+		float aha[50];
+
+	};
+
+};
+
+int const_parameter(const int x);
+int const_paremeter2(bool t, const int x, char y);
+bool const_parameter3(bool t[], const int x[], const char y, string t);
+
+
+caps obiect {
+	float first;
+	bool second;
+	const float third := 5.2;
+	int array[53];
+
+	float sum(int a, int b)
+	{
+		int z := 2;
+		char x[3] := {'1','2','3'};
+		char nume[10] := {'i','o','a'};
+
+		int test(bool x, char z)
+		{
+			int x;
+			int y;
+			int x;
+			float aha[50];
+		};
+
+	};
+};
+
+
+obiect pasare;
+obiect pasare2 := {3.5, 5.5};
+
+obiect get_obiect(float x, float second, float third);
+int myFunction(obiect pasare1, obiect pasare2, bool zboara);
+int myFunction(obiect pasare1, obiect pasare2, bool zboara);
+obiect get_obiect(obiect y);
+
+
+{
+
+a := true;
+x := (5);
+x := 5;
+x := 5 + 7;
+x := (5 + 7);
+y := x;
+y := x * z;
+y := (x * z);
+y := ((x / 2) + z);
+y := x / ((2 + z) - 3);
+y := (x / ((2 + z) - 3));
+
+
+
+y := x / myArray[5] + z;
+myArray[0] := 2;
+
+x := sum(x, y);
+x := sum(x, y) / 2 + z;
+x := ((sum(x, y) / 2) + z);
+
+sum(x/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+sum(myArray[25][32]/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+
+pasare.first := 0.25;
+pasare.seconde := true;
+pasare.arr[i] := 5;
+pasare.arr[0] := 5;
+pasare2.zbor.a := pasare.zbor.a;
+pasare2.zbor.a := (pasare.zbor.a + 5) / x;
+pasare2.zbor.a := pasare.zbor.a.sum(5,4);
+pasare.zbor.a.print(5,4);
+pasare.print();
+
+	if(x = 2)
+	{
+		sum(x/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+		sum(myArray[25][32]/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+
+		pasare.first := 0.25;
+		pasare.seconde := true;
+		pasare.arr[i] := 5;
+		pasare.arr[0] := 5;
+	}
+	else
+	{
+		sum(x/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+		sum(myArray[25][32]/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+
+		pasare.first := 0.25;
+		pasare.seconde := true;
+		pasare.arr[i] := 5;
+		pasare.arr[0] := 5;
+	};
+
+
+
+	while( sum(x, y) / 2 + z != (x / ((2 + z) - 3)) )
+		{
+
+			y := x / myArray[5] + z;
+			myArray[0] := 2;
+
+			x := sum(x, y);
+			x := sum(x, y) / 2 + z;
+			x := ((sum(x, y) / 2) + z);
+
+			sum(x/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+			sum(myArray[25][32]/(2+sum(5,4)), 2+sum(5,4) + sum(2,5));
+		};
+
+	for(ii := 0; ii < 10; ii := ii + 1)
+		{
+			ii := +1;
+		};
+
+	if((!(numar % 4 = 0) && (numar % 100 != 0))||x = 2)
+	{
+		ii := -1.02;
+
+	};
+
+	string1 := string2 + string3;
+	string1 := string2 + "aha";
+	string1 := "aha" + string2;
+	string1 := "aha" + "nah" * "dawdwa" % "d" ;
+
+
+
+	if(string1 = string2)
+	{
+		 x := 0;
+	};
+
+	if(string1 < "mai mic")
+	{
+		 x := 0;
+	};
+
+	if("dawd" > string2)
+	{
+		 x := 0;
+	};
+
+	if("dsds" <= "dawdaw")
+	{
+		 x := 0;
+	};
+
+	eval( 5 + 6);
+	eval(3 * (1 + 2));
+
+	eval( (2 * 6) / 2);
+}
