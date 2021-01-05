@@ -86,7 +86,7 @@ extern void storeDataType(char* data_type);
 #define StringValue(nrArg){\
 			if(strcmp(nrArg.type, "int") == 0)\
 			{\
-			intToString(nrArg.intVal);\
+				intToString(nrArg.intVal);\
 			}\
 			else if (strcmp(nrArg.type, "float") == 0)\
 			{\
@@ -107,15 +107,20 @@ extern void storeDataType(char* data_type);
 			}\
 		}
 
-struct identifierList
-{
-	char* name;
-	char* value;
-	char set;
-};
+char arrayValueType[10];
+char arrayValues[20][20];
+int arrayValuesCounter = 0;
+bool firstArrayType = true;
+
+// struct identifierList
+// {
+// 	char* name;
+// 	char* value;
+// 	char set;
+// };
 
 
-#line 119 "y.tab.c"
+#line 124 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -213,7 +218,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 50 "syntax.y"
+#line 55 "syntax.y"
 
   char* dataType;
   int intVal;
@@ -229,9 +234,11 @@ union YYSTYPE
 	    char *strVal;
   }info;
 
+
+
    
 
-#line 235 "y.tab.c"
+#line 242 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -608,15 +615,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    97,    97,    99,   100,   103,   106,   116,   136,   156,
-     174,   175,   176,   177,   178,   179,   180,   181,   182,   183,
-     184,   192,   193,   196,   197,   198,   199,   200,   203,   204,
-     205,   206,   207,   208,   209,   210,   211,   212,   215,   216,
-     219,   222,   223,   226,   227,   228,   229,   233,   234,   235,
-     238,   239,   240,   241,   242,   243,   244,   245,   246,   247,
-     248,   251,   252,   255,   256,   259,   260,   261,   262,   265,
-     266,   270,   271,   272,   273,   276,   277,   278,   279,   282,
-     285,   286,   287,   288,   289,   290
+       0,   105,   105,   107,   108,   111,   114,   124,   144,   164,
+     177,   209,   210,   211,   212,   213,   214,   215,   216,   217,
+     218,   221,   227,   253,   254,   255,   256,   257,   260,   261,
+     262,   263,   264,   265,   266,   267,   268,   269,   272,   273,
+     276,   279,   280,   283,   284,   285,   286,   290,   291,   292,
+     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
+     305,   308,   309,   312,   313,   316,   317,   318,   319,   322,
+     323,   327,   328,   329,   330,   333,   334,   335,   336,   339,
+     342,   343,   344,   345,   346,   347
 };
 #endif
 
@@ -701,7 +708,7 @@ static const yytype_int8 yydefact[] =
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,    40,     0,
       41,     0,     0,     0,     0,    28,    30,    36,     0,    15,
-       0,     0,    22,    12,     0,    19,    17,     8,     0,    51,
+       0,     0,    21,    12,     0,    19,    17,     8,     0,    51,
       53,     0,    50,    47,    52,    54,    66,    69,     0,     0,
        0,     0,     0,    75,    63,     0,     0,     0,    85,     0,
        0,    48,    42,    49,    68,     0,    63,    64,    62,    61,
@@ -709,7 +716,7 @@ static const yytype_int8 yydefact[] =
        0,     0,     0,     0,     0,     0,     0,     0,    65,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,    46,    67,    38,     0,    29,    31,    37,
-       0,    21,     0,     0,    11,    55,    56,    57,    58,    59,
+       0,    22,     0,     0,    11,    55,    56,    57,    58,    59,
       60,    70,    77,     0,    79,    78,    71,     0,    73,    84,
       80,    81,    82,    83,    39,    16,    33,    35,    20,    18,
       76,     0,     0,    72,     0,     0,    74
@@ -845,7 +852,7 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     2,     3,     1,     2,     4,     5,     2,
        6,     7,     5,     2,     6,     5,     8,     5,     8,     5,
-       8,     3,     1,     1,     1,     1,     1,     1,     2,     4,
+       8,     1,     3,     1,     1,     1,     1,     1,     2,     4,
        2,     4,     3,     5,     3,     5,     2,     4,     1,     2,
        3,     2,     3,     1,     1,     1,     4,     3,     3,     3,
        1,     1,     1,     1,     1,     3,     3,     3,     3,     3,
@@ -1547,13 +1554,13 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 97 "syntax.y"
+#line 105 "syntax.y"
                           {printf("program corect sintactic\n"); printVarList(); printArrayList();}
-#line 1553 "y.tab.c"
+#line 1560 "y.tab.c"
     break;
 
   case 6:
-#line 106 "syntax.y"
+#line 114 "syntax.y"
                                    { 
 									if(!lookupVar((yyvsp[0].strVal)))
 									{
@@ -1564,11 +1571,11 @@ yyreduce:
 										DuplicateIdentifierError((yyvsp[0].strVal));
 									}
 								}
-#line 1568 "y.tab.c"
+#line 1575 "y.tab.c"
     break;
 
   case 7:
-#line 116 "syntax.y"
+#line 124 "syntax.y"
                                                        { 
 		  											if(!lookupVar((yyvsp[-2].strVal)))
 		  											{
@@ -1589,11 +1596,11 @@ yyreduce:
 			  										}
 					  								
 		  										}
-#line 1593 "y.tab.c"
+#line 1600 "y.tab.c"
     break;
 
   case 8:
-#line 136 "syntax.y"
+#line 144 "syntax.y"
                                                     {
           													if(!lookupVar((yyvsp[-2].strVal)))
 				  											{
@@ -1614,142 +1621,212 @@ yyreduce:
 					  										}
 
           											}
-#line 1618 "y.tab.c"
+#line 1625 "y.tab.c"
     break;
 
   case 9:
-#line 156 "syntax.y"
+#line 164 "syntax.y"
                                 {
           							if(!lookupArray((yyvsp[0].strVal)))
           							{
-          								char* name;
-          								printf("\nOK!\n");
+          								char name[50];
           								strcpy(name, extractName((yyvsp[0].strVal)));
-          								printf("\nOK1\n");
-          								fflush(stdout);
           								int maxSize =extractMaxSize((yyvsp[0].strVal));
-          								printf("\nOK2\n");
-          								fflush(stdout);
-          								insertArray((yyvsp[-1].dataType), name, maxSize, Scope, false);
+          								insertArray((yyvsp[-1].dataType), name, maxSize, 0, arrayValues, Scope, false);
           							}
           							else
           							{
           								DuplicateIdentifierError((yyvsp[0].strVal));
           							}
           						}
-#line 1641 "y.tab.c"
+#line 1643 "y.tab.c"
+    break;
+
+  case 10:
+#line 177 "syntax.y"
+                                                              {
+          															if(!lookupArray((yyvsp[-4].strVal)))
+								          							{
+								          								if(strcmp(arrayValueType, (yyvsp[-5].dataType)) == 0)
+								          								{
+									          								char name[50];
+									          								strcpy(name, extractName((yyvsp[-4].strVal)));
+
+									          								int maxSize =extractMaxSize((yyvsp[-4].strVal));
+									          								insertArray((yyvsp[-5].dataType), name, maxSize, arrayValuesCounter, arrayValues, Scope, false);
+
+									          								// curatare structuri de date alterate
+									          								for(int i = 0; i < arrayValuesCounter; i++)
+									          								{
+									          									bzero(arrayValues[i], 20);
+									          								}
+									          								bzero(arrayValueType, 10);
+									          								arrayValuesCounter = 0;
+																			firstArrayType = true;
+
+								          								}
+								          								else
+								          								{
+								          									AssignementError((yyvsp[-4].strVal), (yyvsp[-5].dataType), arrayValueType);
+								          								}
+								          							}
+								          							else
+								          							{
+								          								DuplicateIdentifierError((yyvsp[-4].strVal));
+								          							}		
+          													  }
+#line 1679 "y.tab.c"
     break;
 
   case 13:
-#line 177 "syntax.y"
+#line 211 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1647 "y.tab.c"
+#line 1685 "y.tab.c"
     break;
 
   case 14:
-#line 178 "syntax.y"
+#line 212 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1653 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 19:
-#line 183 "syntax.y"
+#line 217 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1659 "y.tab.c"
+#line 1697 "y.tab.c"
     break;
 
   case 20:
-#line 184 "syntax.y"
+#line 218 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1665 "y.tab.c"
+#line 1703 "y.tab.c"
+    break;
+
+  case 21:
+#line 221 "syntax.y"
+                        {
+							bzero(arrayValueType, 10);
+							strcpy(arrayValueType, (yyvsp[0].info).type);
+							StringValue((yyvsp[0].info));
+							strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
+						}
+#line 1714 "y.tab.c"
+    break;
+
+  case 22:
+#line 228 "syntax.y"
+                                                {
+			   				if(firstArrayType)
+			   				{
+			   					bzero(arrayValueType, 10);
+								strcpy(arrayValueType, (yyvsp[0].info).type);
+								firstArrayType = false;
+
+								StringValue((yyvsp[0].info));
+								strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
+			   				}
+			   				else
+			   				{
+			   					if(strcmp(arrayValueType, (yyvsp[0].info).type) == 0)
+			   					{
+			   						StringValue((yyvsp[0].info));
+									strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
+			   					}
+			   					else
+			   					{
+			   						ListTypesError();
+			   					}
+			   				}
+			   			}
+#line 1742 "y.tab.c"
     break;
 
   case 23:
-#line 196 "syntax.y"
+#line 253 "syntax.y"
                           {(yyval.info).type="int", (yyval.info).intVal=(yyvsp[0].intVal);}
-#line 1671 "y.tab.c"
+#line 1748 "y.tab.c"
     break;
 
   case 24:
-#line 197 "syntax.y"
+#line 254 "syntax.y"
                                   {(yyval.info).type="float", (yyval.info).floatVal=(yyvsp[0].floatVal);}
-#line 1677 "y.tab.c"
+#line 1754 "y.tab.c"
     break;
 
   case 25:
-#line 198 "syntax.y"
+#line 255 "syntax.y"
                           {(yyval.info).type="char", (yyval.info).charVal=(yyvsp[0].charVal);}
-#line 1683 "y.tab.c"
+#line 1760 "y.tab.c"
     break;
 
   case 26:
-#line 199 "syntax.y"
+#line 256 "syntax.y"
                                   {(yyval.info).type="string", (yyval.info).strVal=(yyvsp[0].strVal);}
-#line 1689 "y.tab.c"
+#line 1766 "y.tab.c"
     break;
 
   case 27:
-#line 200 "syntax.y"
+#line 257 "syntax.y"
                                   {(yyval.info).type="bool", (yyval.info).intVal=(yyvsp[0].intVal);}
-#line 1695 "y.tab.c"
+#line 1772 "y.tab.c"
     break;
 
   case 36:
-#line 211 "syntax.y"
+#line 268 "syntax.y"
                                                                                             {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1701 "y.tab.c"
+#line 1778 "y.tab.c"
     break;
 
   case 37:
-#line 212 "syntax.y"
+#line 269 "syntax.y"
                                                                                              {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1707 "y.tab.c"
+#line 1784 "y.tab.c"
     break;
 
   case 46:
-#line 229 "syntax.y"
+#line 286 "syntax.y"
                                   {printf("valoarea expresiei: %d\n", (yyvsp[-1].intVal));}
-#line 1713 "y.tab.c"
+#line 1790 "y.tab.c"
     break;
 
   case 80:
-#line 285 "syntax.y"
+#line 342 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)+(yyvsp[0].intVal); printf("e->e+e | %d + %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1719 "y.tab.c"
+#line 1796 "y.tab.c"
     break;
 
   case 81:
-#line 286 "syntax.y"
+#line 343 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)-(yyvsp[0].intVal); printf("e->e-e | %d - %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1725 "y.tab.c"
+#line 1802 "y.tab.c"
     break;
 
   case 82:
-#line 287 "syntax.y"
+#line 344 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)*(yyvsp[0].intVal); printf("e->e*e | %d * %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1731 "y.tab.c"
+#line 1808 "y.tab.c"
     break;
 
   case 83:
-#line 288 "syntax.y"
+#line 345 "syntax.y"
                                         {(yyval.intVal)=(yyvsp[-2].intVal)/(yyvsp[0].intVal); printf("e->e/e | %d / %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 1737 "y.tab.c"
+#line 1814 "y.tab.c"
     break;
 
   case 84:
-#line 289 "syntax.y"
+#line 346 "syntax.y"
                                         {(yyval.intVal)= (yyvsp[-1].intVal);}
-#line 1743 "y.tab.c"
+#line 1820 "y.tab.c"
     break;
 
   case 85:
-#line 290 "syntax.y"
+#line 347 "syntax.y"
                                                         {(yyval.intVal)=(yyvsp[0].intVal);}
-#line 1749 "y.tab.c"
+#line 1826 "y.tab.c"
     break;
 
 
-#line 1753 "y.tab.c"
+#line 1830 "y.tab.c"
 
       default: break;
     }
@@ -1981,7 +2058,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 293 "syntax.y"
+#line 350 "syntax.y"
 
 void yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);

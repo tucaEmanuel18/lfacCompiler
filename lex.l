@@ -18,7 +18,7 @@
 ":="                                             {printf("ASSIGN "); return ASSIGN;}
 "||"|"&&"                               {printf("BOOL_OPERATOR"); return BOOL_OPERATOR;}
 [a-zA-Z][_a-zA-Z0-9]*(\[\])+				{printf("ARRAY_PARAM_ID"); return ARRAY_PARAM_ID;}
-[a-zA-Z][_a-zA-Z0-9]*(\[((0|([1-9][0-9]*))|([a-zA-Z][_a-zA-Z0-9]*))\])+    {printf("ARRAY_ID "); yylval.strVal = strdup(yytext); return ARRAY_ID;}
+[a-zA-Z][_a-zA-Z0-9]*(\[((0|([1-9][0-9]*))|([a-zA-Z][_a-zA-Z0-9]*))\])    {printf("ARRAY_ID "); yylval.strVal = strdup(yytext); return ARRAY_ID;}
 [a-zA-Z][_a-zA-Z0-9]*                         {printf("IDENTIFIER "); yylval.strVal=strdup(yytext); return IDENTIFIER;}
 [\'].[\']                               {printf("CHARACTER_VALUE "); yylval.charVal=yytext[1]; return CHARACTER_VALUE;}
 ([+-])?(0|([1-9][0-9]*))                            {printf("INTEGER_NUMBER "); yylval.intVal=atoi(yytext); return INTEGER_VALUE;}

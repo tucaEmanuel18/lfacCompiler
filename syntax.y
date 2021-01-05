@@ -17,7 +17,7 @@ extern void storeDataType(char* data_type);
 #define StringValue(nrArg){\
 			if(strcmp(nrArg.type, "int") == 0)\
 			{\
-			intToString(nrArg.intVal);\
+				intToString(nrArg.intVal);\
 			}\
 			else if (strcmp(nrArg.type, "float") == 0)\
 			{\
@@ -38,12 +38,17 @@ extern void storeDataType(char* data_type);
 			}\
 		}
 
-struct identifierList
-{
-	char* name;
-	char* value;
-	char set;
-};
+char arrayValueType[10];
+char arrayValues[20][20];
+int arrayValuesCounter = 0;
+bool firstArrayType = true;
+
+// struct identifierList
+// {
+// 	char* name;
+// 	char* value;
+// 	char set;
+// };
 
 %}
 
@@ -61,6 +66,8 @@ struct identifierList
 	    char charVal;
 	    char *strVal;
   }info;
+
+
 
    
 }
@@ -82,6 +89,7 @@ struct identifierList
 
 
 %type<intVal> EVAL_EXP;
+%type<infoArray> LIST_OF_VALUES;
 %type<info> VALUE;
 
 %start CODE
@@ -156,27 +164,56 @@ EXPRESSION : DATA_TYPE  IDENTIFIER {
           |  DATA_TYPE ARRAY_ID {
           							if(!lookupArray($2))
           							{
-          								char* name;
-          								printf("\nOK!\n");
+          								char name[50];
           								strcpy(name, extractName($2));
-          								printf("\nOK1\n");
-          								fflush(stdout);
           								int maxSize =extractMaxSize($2);
-          								printf("\nOK2\n");
-          								fflush(stdout);
-          								insertArray($1, name, maxSize, Scope, false);
+          								insertArray($1, name, maxSize, 0, arrayValues, Scope, false);
           							}
           							else
           							{
           								DuplicateIdentifierError($2);
           							}
           						}
-          |  DATA_TYPE ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
-          | CONST DATA_TYPE ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}'
+          |  DATA_TYPE ARRAY_ID ASSIGN '{' LIST_OF_VALUES '}' {
+          															if(!lookupArray($2))
+								          							{
+								          								if(strcmp(arrayValueType, $1) == 0)
+								          								{
+									          								char name[50];
+									          								strcpy(name, extractName($2));
+
+									          								int maxSize =extractMaxSize($2);
+									          								insertArray($1, name, maxSize, arrayValuesCounter, arrayValues, Scope, false);
+
+									          								// curatare structuri de date alterate
+									          								for(int i = 0; i < arrayValuesCounter; i++)
+									          								{
+									          									bzero(arrayValues[i], 20);
+									          								}
+									          								bzero(arrayValueType, 10);
+									          								arrayValuesCounter = 0;
+																			firstArrayType = true;
+
+								          								}
+								          								else
+								          								{
+								          									AssignementError($2, $1, arrayValueType);
+								          								}
+								          							}
+								          							else
+								          							{
+								          								DuplicateIdentifierError($2);
+								          							}		
+          													  }
+
           | USR_DATA_TYPE IDENTIFIER '{' DECLARATIONS '}'
           | IDENTIFIER IDENTIFIER                                                         {/*conditie: primul identifier sa fie de tip caps*/}
           | IDENTIFIER IDENTIFIER ASSIGN '{' LIST_OF_VALUES '}'                           {/*conditie: primul identifier sa fie de tip caps*/}
-          | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')'
+          | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')'{
+
+          													 
+          												   }
+
           | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'
           | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' 
           | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'
@@ -184,13 +221,36 @@ EXPRESSION : DATA_TYPE  IDENTIFIER {
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'        {/*conditie: primul identifier sa fie de tip caps*/}
           ;  
 
-                   
-                     
+LIST_OF_VALUES : VALUE  {
+							bzero(arrayValueType, 10);
+							strcpy(arrayValueType, $1.type);
+							StringValue($1);
+							strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
+						}
+			   |LIST_OF_VALUES ',' VALUE
+			   			{
+			   				if(firstArrayType)
+			   				{
+			   					bzero(arrayValueType, 10);
+								strcpy(arrayValueType, $3.type);
+								firstArrayType = false;
 
-
-
-LIST_OF_VALUES :  LIST_OF_VALUES ',' VALUE  
-              | VALUE   
+								StringValue($3);
+								strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
+			   				}
+			   				else
+			   				{
+			   					if(strcmp(arrayValueType, $3.type) == 0)
+			   					{
+			   						StringValue($3);
+									strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
+			   					}
+			   					else
+			   					{
+			   						ListTypesError();
+			   					}
+			   				}
+			   			}
               ;
 
 VALUE : INTEGER_VALUE     {$$.type="int", $$.intVal=$1;}                   

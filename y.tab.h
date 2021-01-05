@@ -99,7 +99,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 50 "syntax.y"
+#line 55 "syntax.y"
 
   char* dataType;
   int intVal;
@@ -115,9 +115,11 @@ union YYSTYPE
 	    char *strVal;
   }info;
 
+
+
    
 
-#line 121 "y.tab.h"
+#line 123 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
