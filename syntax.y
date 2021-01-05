@@ -45,8 +45,8 @@ extern void storeDataType(char* data_type);
 	    float floatVal;
 	    char charVal;
 	    char *strVal;
-  }varInfo;
-
+  }varInfo, parameterList[10];
+int parameterListCounter = 0;
 
 
 struct parameter FunctionParameters[5];
@@ -90,17 +90,18 @@ bool firstArrayType = true;
 %token <floatVal> FLOAT_VALUE 
 %token <intVal> BOOL_VALUE
 %token <strVal> IDENTIFIER
-
+%token <dataType> VOID
 %token IF FOR WHILE ELSE EVAL
 %token ASSIGN  RELATIONAL_OPERATOR BOOL_OPERATOR ARITHMETIC_OPERATOR
 %token <strVal> ARRAY_ID ARRAY_PARAM_ID
-%token VOID CONST  
+%token CONST  
 
 
 %type<intVal> EVAL_EXP;
 %type<infoArray> LIST_OF_VALUES;
 %type<info> VALUE ;
 %type<info> BLOCK_EXPRESSION;
+%type<info> FUNCTION_CALL;
 %start CODE
 %left '+' 
 %left '-' 
@@ -239,9 +240,29 @@ EXPRESSION : DATA_TYPE  IDENTIFIER {
           													 	DuplicateIdentifierError($2);
           													 }
           												   }
+           | DATA_TYPE IDENTIFIER '(' ')' {
+
+											 if(!lookupFunction($2, true))
+											 {
+
+											 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, true);
+
+											 	//curatam structurile de date alterate
+											 	for(int i = 0; i < 5; i++)
+											 	{
+											 		bzero(FunctionParameters[i].type, 10);
+											 		bzero(FunctionParameters[i].identifier, 10);
+											 	}
+											 	nrOfFunctionParameters = 0;
+											 }
+											 else
+											 {
+											 	DuplicateIdentifierError($2);
+											 }
+		  								 }
 
           | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}' 	{
-	      																				if(!lookupFunction($2, true))
+	      																				if(!lookupFunction($2, false))
 							          													 {
 
 
@@ -258,10 +279,104 @@ EXPRESSION : DATA_TYPE  IDENTIFIER {
 							          													 {
 							          													 	DuplicateIdentifierError($2);
 							          													 }
-							          												}
-          | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' 
-          | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'
-          | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')'                              {/*conditie: primul identifier sa fie de tip caps*/}
+								          												}
+		  | DATA_TYPE IDENTIFIER '(' ')' '{' CODE_FUNCTION '}' {
+		  															if(!lookupFunction($2, false))
+		          													 {
+
+
+		          													 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, false);
+		          													 	//curatam structurile de date alterate
+		          													 	for(int i = 0; i < 5; i++)
+		          													 	{
+		          													 		bzero(FunctionParameters[i].type, 10);
+		          													 		bzero(FunctionParameters[i].identifier, 10);
+		          													 	}
+		          													 	nrOfFunctionParameters = 0;
+		          													 }
+		          													 else
+		          													 {
+		          													 	DuplicateIdentifierError($2);
+		          													 }
+		  														}
+          | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' {
+          													if(!lookupFunction($2, true))
+															 {
+
+															 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, true);
+
+															 	//curatam structurile de date alterate
+															 	for(int i = 0; i < 5; i++)
+															 	{
+															 		bzero(FunctionParameters[i].type, 10);
+															 		bzero(FunctionParameters[i].identifier, 10);
+															 	}
+															 	nrOfFunctionParameters = 0;
+															 }
+															 else
+															 {
+															 	DuplicateIdentifierError($2);
+															 }
+
+          												}
+          | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}' {
+          																		if(!lookupFunction($2, false))
+						          													 {
+
+
+						          													 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, false);
+						          													 	//curatam structurile de date alterate
+						          													 	for(int i = 0; i < 5; i++)
+						          													 	{
+						          													 		bzero(FunctionParameters[i].type, 10);
+						          													 		bzero(FunctionParameters[i].identifier, 10);
+						          													 	}
+						          													 	nrOfFunctionParameters = 0;
+						          													 }
+						          													 else
+						          													 {
+						          													 	DuplicateIdentifierError($2);
+						          													 }
+          																		}
+          | VOID IDENTIFIER '(' ')'{
+          								 if(!lookupFunction($2, true))
+											 {
+
+											 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, true);
+
+											 	//curatam structurile de date alterate
+											 	for(int i = 0; i < 5; i++)
+											 	{
+											 		bzero(FunctionParameters[i].type, 10);
+											 		bzero(FunctionParameters[i].identifier, 10);
+											 	}
+											 	nrOfFunctionParameters = 0;
+											 }
+											 else
+											 {
+											 	DuplicateIdentifierError($2);
+											 }
+          						   }
+          | VOID IDENTIFIER '(' ')' '{' CODE_FUNCTION '}'	{
+          														if(!lookupFunction($2, false))
+		          													 {
+
+
+		          													 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, false);
+		          													 	//curatam structurile de date alterate
+		          													 	for(int i = 0; i < 5; i++)
+		          													 	{
+		          													 		bzero(FunctionParameters[i].type, 10);
+		          													 		bzero(FunctionParameters[i].identifier, 10);
+		          													 	}
+		          													 	nrOfFunctionParameters = 0;
+		          													 }
+		          													 else
+		          													 {
+		          													 	DuplicateIdentifierError($2);
+		          													 }
+          													}
+          | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')'		{/*conditie: primul identifier sa fie de tip caps*/}
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'        {/*conditie: primul identifier sa fie de tip caps*/}
           ;  
 
@@ -342,7 +457,8 @@ STATEMENT : ASSIGNEMENT
           ;
 
 
-ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION    {  if(lookupVar($1))
+ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION    {
+														if(lookupVar($1))
 														{
 															var* actualVar = getVar($1);
 															char varType[10];
@@ -368,7 +484,36 @@ ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION    {  if(lookupVar($1))
 															UndeclaredVariableError($1);
 														}
 												    }
-            | ARRAY_ID ASSIGN BLOCK_EXPRESSION
+            | ARRAY_ID ASSIGN BLOCK_EXPRESSION {
+            										char name[50];
+				          							strcpy(name, extractName($1));
+				          							if(lookupArray(name))
+				          							{
+				          								int index = extractMaxSize($1);
+				          								array * nod = getArray(name);
+				          								if(nod->actualSize <= index)
+				          								{
+				          									OutOfBoundError();
+				          								}
+
+				          								if(strcmp(nod->type, $3.type) == 0)
+				          								{
+				          									StringValue($3);
+				          									strcpy(nod->values[index], AuxBuffer);
+				          								}
+				          								else
+				          								{
+				          									AssignementError($1, nod->type, $3.type);
+				          								}
+
+				          									
+				          							}
+				          							else
+				          							{
+				          								UndeclaredVariableError(name);
+				          							}
+            								   }
+
             | CAPS_ID ASSIGN BLOCK_EXPRESSION
 
 BLOCK_EXPRESSION : VALUE {
@@ -398,29 +543,36 @@ BLOCK_EXPRESSION : VALUE {
                   					if(lookupVar($1))
 									{
 										var* actualVar = getVar($1);
-										strcpy($$.type, actualVar->type);
-										if(strcmp(actualVar->type, "int") == 0)
+										if(actualVar->set == true)
 										{
-											$$.intVal = atoi(actualVar->value);
-										}
-										else if (strcmp(actualVar->type, "float") == 0)
-										{
-											$$.floatVal = atof(actualVar->value);
-										}
-										else if (strcmp(actualVar->type, "bool") == 0)
-										{
-											$$.intVal = atoi(actualVar->value);
-										}
-										else if (strcmp(actualVar->type, "char") == 0)
-										{
-											$$.charVal = actualVar->value[0];
-										}
-										else if (strcmp(actualVar->type, "string") == 0)
-										{
+											strcpy($$.type, actualVar->type);
+											if(strcmp(actualVar->type, "int") == 0)
+											{
+												$$.intVal = atoi(actualVar->value);
+											}
+											else if (strcmp(actualVar->type, "float") == 0)
+											{
+												$$.floatVal = atof(actualVar->value);
+											}
+											else if (strcmp(actualVar->type, "bool") == 0)
+											{
+												$$.intVal = atoi(actualVar->value);
+											}
+											else if (strcmp(actualVar->type, "char") == 0)
+											{
+												$$.charVal = actualVar->value[0];
+											}
+											else if (strcmp(actualVar->type, "string") == 0)
+											{
 
-											$$.strVal = actualVar->value;
-											printf("\nFALG\n");
+												$$.strVal = actualVar->value;
+											}
 										}
+										else
+										{
+											UsedButNotSetError($1);
+										}
+										
 												
 									}
 									else
@@ -455,7 +607,7 @@ BLOCK_EXPRESSION : VALUE {
 	          								else if (strcmp(nod->type, "char") == 0)
 	          								{
 	          									$$.charVal = nod->values[index][0];
-	          								}else if (strcmp(nod->type, "float") == 0)
+	          								}else if (strcmp(nod->type, "string") == 0)
 	          								{
 	          									$$.strVal = nod->values[index];
 	          								}	
@@ -465,8 +617,48 @@ BLOCK_EXPRESSION : VALUE {
 	          								UndeclaredVariableError(name);
 	          							}
                    					}
-                  | FUNCTION_CALL 	{ ;}
-                  | '(' BLOCK_EXPRESSION ')'  	{;}
+                  | FUNCTION_CALL 	{ 
+                  						$$.type = $1.type;
+                  						if(strcmp($$.type, "int") == 0)
+          									$$.intVal = 0;
+          								else if (strcmp($$.type, "float") == 0)
+          								{
+          									$$.floatVal = 0;
+          								}else if (strcmp($$.type, "bool") == 0)
+          								{
+          									$$.intVal = 0;
+          								}
+          								else if (strcmp($$.type, "char") == 0)
+          								{
+          									$$.charVal = '\0';
+          								}else if (strcmp($$.type, "string") == 0)
+          								{
+          									strcpy($$.strVal, "\0");
+          								}
+
+                  					}
+                  | '(' BLOCK_EXPRESSION ')'  	{ 
+                  									strcpy($$.type, $2.type);
+
+
+			          								if(strcmp($2.type, "int") == 0)
+			          									$$.intVal = $2.intVal;
+			          								else if (strcmp($2.type, "float") == 0)
+			          								{
+			          									$$.floatVal = $2.floatVal;
+			          								}else if (strcmp($2.type, "bool") == 0)
+			          								{
+			          									$$.intVal = $2.intVal;
+			          								}
+			          								else if (strcmp($2.type, "char") == 0)
+			          								{
+			          									$$.charVal = $2.charVal;
+			          								}else if (strcmp($2.type, "string") == 0)
+			          								{
+			          									strcpy($$.strVal, $2.strVal);
+			          								}
+
+                  								}
                	  | BLOCK_EXPRESSION '+' BLOCK_EXPRESSION { 
                	  												if(strcmp($1.type, $3.type)== 0)
                	  												{
@@ -484,8 +676,7 @@ BLOCK_EXPRESSION : VALUE {
                	  														int length = strlen($$.strVal);
                	  														$$.strVal[length - 1] = '\0';
                	  														strcat($$.strVal, $3.strVal + 1);
-               	  														printf("\n%s\n",$$.strVal);
-               	  														strcpy($$.type, $1.type);
+               	  														$$.type = $1.type;
                	  													}
                	  													else
                	  													{
@@ -611,14 +802,158 @@ ID : IDENTIFIER
    | ARRAY_ID
    ;
 
-FUNCTION_CALL : IDENTIFIER '(' LIST_OF_CALL_PARAMETERS ')'
-              | IDENTIFIER '(' ')'
-              | CAPS_ID '(' LIST_OF_CALL_PARAMETERS ')'
-              | CAPS_ID '(' ')'
+FUNCTION_CALL : IDENTIFIER '(' LIST_OF_CALL_PARAMETERS ')'	{
+																if(lookupFunction($1, false))
+																{
+																	
+
+																	function* nod = getFunction($1, false);
+
+																	if(nod->nrOfParameters == parameterListCounter)
+																	{
+
+																		for(int i = 0; i < parameterListCounter; i++)
+																		{
+																			if(strcmp(parameterList[i].type, nod->parameters[i].type) != 0)
+																			{
+																				ParameterWrongTypeError($1, i, parameterList[i].type, nod->parameters[i].type);
+																			}																		
+																		}
+																		$$.type = nod->returnType;
+
+																		if(strcmp($$.type, "int") == 0)
+								          									$$.intVal = 0;
+								          								else if (strcmp($$.type, "float") == 0)
+								          								{
+								          									$$.floatVal = 0;
+								          								}else if (strcmp($$.type, "bool") == 0)
+								          								{
+								          									$$.intVal = 0;
+								          								}
+								          								else if (strcmp($$.type, "char") == 0)
+								          								{
+								          									$$.charVal = '\0';
+								          								}else if (strcmp($$.type, "string") == 0)
+								          								{
+								          									strcpy($$.strVal, "\0");
+								          								}
+
+																		for(int i = 0; i < parameterListCounter; i++)
+																		{
+																			bzero(parameterList[i].type, 10);
+																		}
+																		parameterListCounter = 0;
+																	}
+																	else
+																	{
+																		ParameterNumberError($1);
+																	}
+																}
+																else
+																{
+																	UndefinedFunction($1);
+																}
+															}
+              | IDENTIFIER '(' ')'{
+              						if(lookupFunction($1, false))
+									{
+																	
+
+										function* nod = getFunction($1, false);
+
+										if(nod->nrOfParameters == parameterListCounter)
+										{
+
+											for(int i = 0; i < parameterListCounter; i++)
+											{
+												if(strcmp(parameterList[i].type, nod->parameters[i].type) != 0)
+												{
+													ParameterWrongTypeError($1, i, parameterList[i].type, nod->parameters[i].type);
+												}
+											}
+
+											$$.type = nod->returnType;
+
+											if(strcmp($$.type, "int") == 0)
+	          									$$.intVal = 0;
+	          								else if (strcmp($$.type, "float") == 0)
+	          								{
+	          									$$.floatVal = 0;
+	          								}else if (strcmp($$.type, "bool") == 0)
+	          								{
+	          									$$.intVal = 0;
+	          								}
+	          								else if (strcmp($$.type, "char") == 0)
+	          								{
+	          									$$.charVal = '\0';
+	          								}else if (strcmp($$.type, "string") == 0)
+	          								{
+	          									strcpy($$.strVal, "\0");
+	          								}
+
+
+											for(int i = 0; i < parameterListCounter; i++)
+											{
+												bzero(parameterList[i].type, 10);
+											}
+											parameterListCounter = 0;
+										}
+										else
+										{
+											ParameterNumberError($1);
+										}
+									}
+									else
+									{
+										UndefinedFunction($1);
+									}	
+              					  }
+
+
+              | CAPS_ID '(' LIST_OF_CALL_PARAMETERS ')' {;}
+              | CAPS_ID '(' ')'							{;}
               ;
 
-LIST_OF_CALL_PARAMETERS : BLOCK_EXPRESSION        
-                        | LIST_OF_CALL_PARAMETERS ',' BLOCK_EXPRESSION
+LIST_OF_CALL_PARAMETERS : BLOCK_EXPRESSION      {
+													parameterList[parameterListCounter].type = $1.type;
+
+													if(strcmp($1.type, "int") == 0)
+			          									parameterList[parameterListCounter++].intVal = $1.intVal;
+			          								else if (strcmp($1.type, "float") == 0)
+			          								{
+			          									parameterList[parameterListCounter++].floatVal = $1.floatVal;
+			          								}else if (strcmp($1.type, "bool") == 0)
+			          								{
+			          									parameterList[parameterListCounter++].intVal = $1.intVal;
+			          								}
+			          								else if (strcmp($1.type, "char") == 0)
+			          								{
+			          									parameterList[parameterListCounter++].charVal = $1.charVal;
+			          								}else if (strcmp($1.type, "string") == 0)
+			          								{
+			          									parameterList[parameterListCounter++].strVal = $1.strVal;
+			          								}
+												}  
+                        | LIST_OF_CALL_PARAMETERS ',' BLOCK_EXPRESSION { 
+					                        							parameterList[parameterListCounter].type = $3.type;
+
+																		if(strcmp($3.type, "int") == 0)
+								          									parameterList[parameterListCounter++].intVal = $3.intVal;
+								          								else if (strcmp($3.type, "float") == 0)
+								          								{
+								          									parameterList[parameterListCounter++].floatVal = $3.floatVal;
+								          								}else if (strcmp($3.type, "bool") == 0)
+								          								{
+								          									parameterList[parameterListCounter++].intVal = $3.intVal;
+								          								}
+								          								else if (strcmp($3.type, "char") == 0)
+								          								{
+								          									parameterList[parameterListCounter++].charVal = $3.charVal;
+								          								}else if (strcmp($3.type, "string") == 0)
+								          								{
+								          									parameterList[parameterListCounter++].strVal = $3.strVal;
+								          								}
+								          							}
                         ;
 
 

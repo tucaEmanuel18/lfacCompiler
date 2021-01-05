@@ -242,7 +242,7 @@ typedef struct function {
     char name[50];
     int nrOfParameters;
     
- 	struct parameter parameters[5];
+ 	struct parameter parameters[10];
     char scope[50];
     bool signature;
 
@@ -293,6 +293,27 @@ bool lookupFunction(char *name, bool newSignature) {
 	if(currentFunction == NULL)
 		return false;
 	return true;
+}
+
+function* getFunction(char* name, bool signatures)
+{
+
+	currentFunction = firstFunction;
+	while (currentFunction != NULL) 
+	{
+		if (strcmp(currentFunction->name, name) == 0)
+		 	{
+		 		if(currentFunction->signature != true)
+		 		    break;
+		 		else
+		 		{
+		 			if(signatures == true)
+		 				break;
+		 		}
+		 	}
+		currentFunction = currentFunction->next;
+	}
+	return currentFunction;
 }
 
 
@@ -416,5 +437,29 @@ void DivideZeroError()
 void OutOfBoundError()
 {
 	printf("\nERROR ON LINE %d : Index out of bound!\n", yylineno);
+    exit(0);
+}
+
+void UndefinedFunction(char* identifier)
+{
+	printf("\nERROR ON LINE %d : The function '%s' is not defined!\n", yylineno, identifier);
+    exit(0);
+}
+
+void ParameterWrongTypeError(char* identifier, int nrOfParameter, char* calledType, char* definedType)
+{
+	printf("\nERROR ON LINE %d : In function '%s' call the %d th parameter is called with type '%s', but it is defined with type '%s' !\n", yylineno, identifier, nrOfParameter, calledType, definedType);
+    exit(0);
+}
+
+void ParameterNumberError(char* identifier)
+{
+	printf("\nERROR ON LINE %d : The function %s, is called with wrong number of parameters!\n", yylineno, identifier);
+    exit(0);
+}
+
+void UsedButNotSetError(char* identifier)
+{
+	printf("\nERROR ON LINE %d : The variable '%s' is used but not set!\n", yylineno, identifier);
     exit(0);
 }

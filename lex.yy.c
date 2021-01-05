@@ -820,7 +820,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 8 "lex.l"
-{printf("VOID "); return VOID;}
+{printf("VOID "); yylval.dataType=strdup(yytext); return VOID;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP

@@ -5,7 +5,7 @@
 %option noyywrap
 %%
 "int"|"float"|"char"|"string"|"bool"                       {printf("DATA_TYPE "); yylval.dataType=strdup(yytext); return DATA_TYPE;}
-"void"														{printf("VOID "); return VOID;}
+"void"														{printf("VOID "); yylval.dataType=strdup(yytext); return VOID;}
 "const"                        {printf("CONST "); return CONST;}
 "caps"                        {printf("USR_DATA_TYPE "); return USR_DATA_TYPE;}
 "if"                                             {printf("IF "); return IF;}

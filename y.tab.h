@@ -57,18 +57,18 @@ extern int yydebug;
     FLOAT_VALUE = 263,
     BOOL_VALUE = 264,
     IDENTIFIER = 265,
-    IF = 266,
-    FOR = 267,
-    WHILE = 268,
-    ELSE = 269,
-    EVAL = 270,
-    ASSIGN = 271,
-    RELATIONAL_OPERATOR = 272,
-    BOOL_OPERATOR = 273,
-    ARITHMETIC_OPERATOR = 274,
-    ARRAY_ID = 275,
-    ARRAY_PARAM_ID = 276,
-    VOID = 277,
+    VOID = 266,
+    IF = 267,
+    FOR = 268,
+    WHILE = 269,
+    ELSE = 270,
+    EVAL = 271,
+    ASSIGN = 272,
+    RELATIONAL_OPERATOR = 273,
+    BOOL_OPERATOR = 274,
+    ARITHMETIC_OPERATOR = 275,
+    ARRAY_ID = 276,
+    ARRAY_PARAM_ID = 277,
     CONST = 278
   };
 #endif
@@ -81,18 +81,18 @@ extern int yydebug;
 #define FLOAT_VALUE 263
 #define BOOL_VALUE 264
 #define IDENTIFIER 265
-#define IF 266
-#define FOR 267
-#define WHILE 268
-#define ELSE 269
-#define EVAL 270
-#define ASSIGN 271
-#define RELATIONAL_OPERATOR 272
-#define BOOL_OPERATOR 273
-#define ARITHMETIC_OPERATOR 274
-#define ARRAY_ID 275
-#define ARRAY_PARAM_ID 276
-#define VOID 277
+#define VOID 266
+#define IF 267
+#define FOR 268
+#define WHILE 269
+#define ELSE 270
+#define EVAL 271
+#define ASSIGN 272
+#define RELATIONAL_OPERATOR 273
+#define BOOL_OPERATOR 274
+#define ARITHMETIC_OPERATOR 275
+#define ARRAY_ID 276
+#define ARRAY_PARAM_ID 277
 #define CONST 278
 
 /* Value type.  */

@@ -1,17 +1,16 @@
 float xF := 7.6;
-int var1 := 4;
+const int var1 := 2;
 int yF;
 float fvar1 := 4.0;
 const float const_fvar1 := 4.0;
 bool adevarat := true;
 bool fals := false;
-char c;
 char ch := 'd';
 const char ch_const := 'd';
 string Lastname := "Tuca";
 string name := "Emanuel";
 int z := 17;
-
+void print();
 int x[10] := {1, 2, 3, 4, 5, 6, 7, 8};
 int y[10];
 float xA[20] := {1.2, 2.5, 0.00002};
@@ -19,20 +18,32 @@ char Tiberiu[8] := {'T', 'i', 'b', 'e', 'r', 'i', 'u'};
 string Emanuel[2] := {"Emanuel", "Tuca"};
 bool aha[2];
 int ceAvem := 2;
+int a := 2;
+int b := 5;
+int c := 6;
 
+
+int sum(int x, int y);
 int sum(int x, int y)
 {
 	int se;
 	int pare;
 	int ca;
 };
+
 {
-	
 	ceAvem := ceAvem - 5;
 	ceAvem := ceAvem % 2;
-	ceAvem := x[1];
+	ceAvem := x[1] + x[5];
 	xF := xF + xF;
 
+	b :=  c * (a + a);
+	x[1] := 5;
+
+	a := a + a;
+	Emanuel[0] := "Aha" + "Hag";
+	
 	name := name + Lastname;
+	a := sum(a, b);
 
 }
