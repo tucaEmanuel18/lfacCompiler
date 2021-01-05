@@ -38,52 +38,6 @@ extern void storeDataType(char* data_type);
 			}\
 		}
 
-#define BlockValue(BLOCK, VALUE){\
-			if(strcmp(VALUEtype, "int") == 0)\
-			{\
-				BLOCK.intVal = VALUEintVal;\
-			}\
-			else if (strcmp(VALUEtype, "float") == 0)\
-			{\
-				BLOCK.intVal = VALUEfloatVal;\
-			}\
-			else if (strcmp(VALUEtype, "bool") == 0)\
-			{\
-				BLOCK.intVal = VALUEintVal;\
-			}\
-			else if (strcmp(VALUEtype, "char") == 0)\
-			{\
-				BLOCK.charVal = VALUEcharVal;\
-			}\
-			else if (strcmp(VALUEtype, "string") == 0)\
-			{\
-				BLOCK.stringVal = VALUEstringVal;\
-			}\
-		}
-
-#define IdentifierValue(varNod){\
-		if(strcmp(varNod->type, "int") == 0)\
-		{\
-			varInfo.intVal = atoi(varNod->value);\
-		}\
-		else if (strcmp(varNod->type, "float") == 0)\
-		{\
-			varInfo.floatVal = atof(varNod->value);\
-		}\
-		else if (strcmp(varNod->type, "bool") == 0)\
-		{\
-			varInfo.intVal = atoi(varNod->value);\
-		}\
-		else if (strcmp(varNod->type, "char") == 0)\
-		{\
-			varInfo.charVal = varNod->value[0];\
-		}\
-		else if (strcmp(varNod->type, "string") == 0)\
-		{\
-			strcpy(varInfo.stringVal, varNod->value);\
-		}\
-	}
-
  struct expressionInfo{
 	    char *type;
 
@@ -113,14 +67,14 @@ bool firstArrayType = true;
   char* strVal;
   float floatVal;
   char charVal;
-  struct expressionInfo{
-	    char *type;
+  struct expressionI
+  {char *type;
 
-	    int intVal;
-	    float floatVal;
-	    char charVal;
-	    char *strVal;
-  }info;
+    int intVal;
+    float floatVal;
+    char charVal;
+    char *strVal;
+	}info;
 
 
 
@@ -217,10 +171,11 @@ EXPRESSION : DATA_TYPE  IDENTIFIER {
 
           											}
           |  DATA_TYPE ARRAY_ID {
-          							if(!lookupArray($2))
+
+          							char name[50];
+          							strcpy(name, extractName($2));
+          							if(!lookupArray(name))
           							{
-          								char name[50];
-          								strcpy(name, extractName($2));
           								int maxSize =extractMaxSize($2);
           								insertArray($1, name, maxSize, 0, arrayValues, Scope, false);
           							}
@@ -395,13 +350,13 @@ ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION    {  if(lookupVar($1))
 
 															if(strcmp(actualVar->type, $3.type) == 0)
 															{
-																if(actualVar->const != true)
+																if(actualVar->constant != true)
 																{
 																	StringValue($3);
 				  													strcpy(actualVar->value, AuxBuffer);
 																}
 																else
-																	ConstAsignementError($1, actualVar->type)
+																	ConstAsignementError($1);
 															}
 															else
 															{
@@ -410,39 +365,243 @@ ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION    {  if(lookupVar($1))
 														}
 														else
 														{
-															NedefinedVariableError($1);
+															UndeclaredVariableError($1);
 														}
 												    }
             | ARRAY_ID ASSIGN BLOCK_EXPRESSION
             | CAPS_ID ASSIGN BLOCK_EXPRESSION
-            ;
 
 BLOCK_EXPRESSION : VALUE {
-							$$.type = $1.type;
-							BlockValue($$, $1.);
+								$$.type = $1.type;
+								if(strcmp($1.type, "int") == 0)
+								{
+									$$.intVal = $1.intVal;
+								}
+								else if (strcmp($1.type, "float") == 0)
+								{
+									$$.intVal = $1.floatVal;
+								}
+								else if (strcmp($1.type, "bool") == 0)
+								{
+									$$.intVal = $1.intVal;
+								}
+								else if (strcmp($1.type, "char") == 0)
+								{
+									$$.charVal = $1.charVal;
+								}
+								else if (strcmp($1.type, "string") == 0)
+								{
+									$$.strVal = $1.strVal;
+								}
 						 }
                   | IDENTIFIER {
                   					if(lookupVar($1))
 									{
 										var* actualVar = getVar($1);
 										strcpy($$.type, actualVar->type);
-										BlockValue($$, actualVar->);
+										if(strcmp(actualVar->type, "int") == 0)
+										{
+											$$.intVal = atoi(actualVar->value);
+										}
+										else if (strcmp(actualVar->type, "float") == 0)
+										{
+											$$.floatVal = atof(actualVar->value);
+										}
+										else if (strcmp(actualVar->type, "bool") == 0)
+										{
+											$$.intVal = atoi(actualVar->value);
+										}
+										else if (strcmp(actualVar->type, "char") == 0)
+										{
+											$$.charVal = actualVar->value[0];
+										}
+										else if (strcmp(actualVar->type, "string") == 0)
+										{
+
+											$$.strVal = actualVar->value;
+											printf("\nFALG\n");
+										}
+												
 									}
 									else
 									{
-										NedefinedVariableError($1);
+										UndeclaredVariableError($1);
 									}
                   			   }
-                  | CAPS_ID
-                  | ARRAY_ID
-                  | FUNCTION_CALL
-                  | '(' BLOCK_EXPRESSION ')' 
-               	  | BLOCK_EXPRESSION '+' BLOCK_EXPRESSION
+                  | CAPS_ID			{ ;}
+                  | ARRAY_ID  		{ 
+                  						char name[50];
+	          							strcpy(name, extractName($1));
+	          							if(lookupArray(name))
+	          							{
+	          								int index = extractMaxSize($1);
+	          								array * nod = getArray(name);
+	          								if(nod->actualSize <= index)
+	          								{
+	          									OutOfBoundError();
+	          								}
+
+	          								$$.type = nod->type;
+
+	          								if(strcmp(nod->type, "int") == 0)
+	          									$$.intVal = atoi(nod->values[index]);
+	          								else if (strcmp(nod->type, "float") == 0)
+	          								{
+	          									$$.floatVal = atof(nod->values[index]);
+	          								}else if (strcmp(nod->type, "bool") == 0)
+	          								{
+	          									$$.intVal = atoi(nod->values[index]);
+	          								}
+	          								else if (strcmp(nod->type, "char") == 0)
+	          								{
+	          									$$.charVal = nod->values[index][0];
+	          								}else if (strcmp(nod->type, "float") == 0)
+	          								{
+	          									$$.strVal = nod->values[index];
+	          								}	
+	          							}
+	          							else
+	          							{
+	          								UndeclaredVariableError(name);
+	          							}
+                   					}
+                  | FUNCTION_CALL 	{ ;}
+                  | '(' BLOCK_EXPRESSION ')'  	{;}
+               	  | BLOCK_EXPRESSION '+' BLOCK_EXPRESSION { 
+               	  												if(strcmp($1.type, $3.type)== 0)
+               	  												{
+               	  													if(strcmp($1.type, "int") == 0)
+               	  													{
+               	  														$$.intVal = $1.intVal + $3.intVal;
+               	  														strcpy($$.type, $1.type);
+               	  													}else if(strcmp($1.type, "float") == 0)
+               	  													{
+               	  														$$.floatVal = $1.floatVal + $3.floatVal;
+               	  														strcpy($$.type, $1.type);
+               	  													}else if (strcmp($1.type, "string") == 0)
+               	  													{
+               	  														strcpy($$.strVal, $1.strVal);
+               	  														int length = strlen($$.strVal);
+               	  														$$.strVal[length - 1] = '\0';
+               	  														strcat($$.strVal, $3.strVal + 1);
+               	  														printf("\n%s\n",$$.strVal);
+               	  														strcpy($$.type, $1.type);
+               	  													}
+               	  													else
+               	  													{
+               	  														OperatorError($1.type);
+               	  													}
+               	  												}
+               	  												else
+               	  												{
+               	  													OperationError();
+               	  												}
+
+               	  											} 
                	  | BLOCK_EXPRESSION '-' BLOCK_EXPRESSION
-               	  | BLOCK_EXPRESSION '*' BLOCK_EXPRESSION
-               	  | BLOCK_EXPRESSION '/' BLOCK_EXPRESSION
-               	  | BLOCK_EXPRESSION '%' BLOCK_EXPRESSION
-                  ;
+               	  											{
+               	  												if(strcmp($1.type, $3.type)== 0)
+               	  												{
+               	  													if(strcmp($1.type, "int") == 0)
+               	  													{
+               	  														$$.intVal = $1.intVal - $3.intVal;
+               	  														$$.type = $1.type;
+               	  													}else if(strcmp($1.type, "float") == 0)
+               	  													{
+               	  														$$.floatVal = $1.floatVal - $3.floatVal;
+               	  														$$.type = $1.type;
+               	  													}
+               	  													else
+               	  													{
+               	  														OperatorError($1.type);
+               	  													}
+               	  												}
+               	  												else
+               	  												{
+               	  													OperationError();
+               	  												}
+
+               	  											}
+               	  | BLOCK_EXPRESSION '*' BLOCK_EXPRESSION 	{
+               	  												if(strcmp($1.type, $3.type)== 0)
+               	  												{
+               	  													if(strcmp($1.type, "int") == 0)
+               	  													{
+               	  														$$.intVal = $1.intVal * $3.intVal;
+               	  														$$.type = $1.type;
+               	  													}else if(strcmp($1.type, "float") == 0)
+               	  													{
+               	  														$$.floatVal = $1.floatVal * $3.floatVal;
+               	  														$$.type = $1.type;
+               	  													}
+               	  													else
+               	  													{
+               	  														OperatorError($1.type);
+               	  													}
+               	  												}
+               	  												else
+               	  												{
+               	  													OperationError();
+               	  												}
+
+               	  											}
+               	  | BLOCK_EXPRESSION '/' BLOCK_EXPRESSION	{
+               	  												if(strcmp($1.type, $3.type)== 0)
+               	  												{
+               	  													if(strcmp($1.type, "int") == 0)
+               	  													{
+               	  														if($3.intVal != 0){
+               	  															$$.intVal = (int)($1.intVal / $3.intVal);
+               	  															$$.type = $1.type;
+               	  														}
+               	  														else
+               	  														{
+               	  															DivideZeroError();
+               	  														}
+               	  														
+               	  													}else if(strcmp($1.type, "float") == 0)
+               	  													{
+               	  														if($3.floatVal != 0){
+               	  															$$.floatVal = $1.floatVal / $3.floatVal;
+               	  															$$.type = $1.type;
+               	  														}
+               	  														else
+               	  														{
+               	  															DivideZeroError();
+               	  														}
+               	  														
+               	  													}
+               	  													else
+               	  													{
+               	  														OperatorError($1.type);
+               	  													}
+               	  												}
+               	  												else
+               	  												{
+               	  													OperationError();
+               	  												}
+
+               	  											}
+
+               	  | BLOCK_EXPRESSION '%' BLOCK_EXPRESSION	{
+	           	  												if(strcmp($1.type, $3.type)== 0)
+	           	  												{
+	           	  													if(strcmp($1.type, "int") == 0)
+	           	  													{
+	           	  														$$.intVal = $1.intVal % $3.intVal;
+	           	  														$$.type = $1.type;
+	           	  													}
+	           	  													else
+	           	  													{
+	           	  														OperatorError($1.type);
+	           	  													}
+	           	  												}
+	           	  												else
+	           	  												{
+	           	  													OperationError();
+	           	  												}
+               	  											}
+               	  											;
 
 CAPS_ID : ID '.' ID
        | CAPS_ID '.' ID

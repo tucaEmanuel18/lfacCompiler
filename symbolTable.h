@@ -58,7 +58,7 @@ bool lookupVar(char *name) {
 	return true;
 }
 
-var* lookupVar(char *name) {
+var* getVar(char *name) {
 	currentVar = firstVar;
 	while (currentVar != NULL) {
 		if (strcmp(currentVar->name, name) == 0) break;
@@ -124,7 +124,7 @@ void printArrayList()
 
 		if(currentArray->actualSize != 0)
 		{
-			printf(" | Values: ");
+			printf("Values: ");
 			for(int i = 0; i < currentArray->actualSize; i++)
 			{
 				printf("%s, ", currentArray->values[i]);
@@ -147,6 +147,14 @@ bool lookupArray(char *name) {
 		return false;
 	return true;
 }
+array* getArray(char *name) {
+	currentArray = firstArray;
+	while (currentArray != NULL) {
+		if (strcmp(currentArray->name, name) == 0) break;
+		currentArray = currentArray->next;
+	}
+	return currentArray;
+}
 
 void insertArray(char* dataType, char* arrayName, int maxSize, int actualSize, char arrayValues[20][20], char* scope, bool constant)
 {
@@ -155,7 +163,6 @@ void insertArray(char* dataType, char* arrayName, int maxSize, int actualSize, c
 	
 	nod->type = dataType;
 	strcpy(nod->name, arrayName);
-	printf("\n\nSizeOfARRAy = %d\n\n", maxSize);
 	if(maxSize <= 20)
 	{
 		nod->maxSize = maxSize;
@@ -222,7 +229,7 @@ int extractMaxSize(char* arrayIdentifier)
     	extractedNumber[i-j] = arrayIdentifier[i];
     	i++;
     }
-    extractedNumber[i] = '\0';
+    extractedNumber[i-j] = '\0';
     int maxSize = atoi(extractedNumber);
     return maxSize;
 }
@@ -379,5 +386,35 @@ void FunctionNoOfParametersError()
 void ConstAsignementError(char* identifier)
 {
 	printf("\nERROR ON LINE %d : %s is declared as constant!\n", yylineno, identifier);
+    exit(0);
+}
+
+void UndeclaredVariableError(char* identifier)
+{	
+	printf("\nERROR ON LINE %d : The variable %s is not declared!\n", yylineno, identifier);
+    exit(0);
+}
+
+void OperationError()
+{
+	printf("\nERROR ON LINE %d : Can't do operations with different types!!\n", yylineno);
+    exit(0);
+}
+
+void OperatorError(char* type)
+{
+	printf("\nERROR ON LINE %d : Can't use this operator on '%s' type!!\n", yylineno, type);
+    exit(0);
+}
+
+void DivideZeroError()
+{
+	printf("\nERROR ON LINE %d : Can't divide by Zero!\n", yylineno);
+    exit(0);	
+}
+
+void OutOfBoundError()
+{
+	printf("\nERROR ON LINE %d : Index out of bound!\n", yylineno);
     exit(0);
 }

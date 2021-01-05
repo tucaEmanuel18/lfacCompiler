@@ -99,21 +99,21 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 110 "syntax.y"
+#line 64 "syntax.y"
 
   char* dataType;
   int intVal;
   char* strVal;
   float floatVal;
   char charVal;
-  struct expressionInfo{
-	    char *type;
+  struct expressionI
+  {char *type;
 
-	    int intVal;
-	    float floatVal;
-	    char charVal;
-	    char *strVal;
-  }info;
+    int intVal;
+    float floatVal;
+    char charVal;
+    char *strVal;
+	}info;
 
 
 
