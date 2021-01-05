@@ -58,6 +58,14 @@ bool lookupVar(char *name) {
 	return true;
 }
 
+var* lookupVar(char *name) {
+	currentVar = firstVar;
+	while (currentVar != NULL) {
+		if (strcmp(currentVar->name, name) == 0) break;
+		currentVar = currentVar->next;
+	}
+	return currentVar;
+}
 
 void insertVar(char* dataType, char* symbolName, char* value, char* scope, bool set, bool constant)
 {
@@ -147,6 +155,7 @@ void insertArray(char* dataType, char* arrayName, int maxSize, int actualSize, c
 	
 	nod->type = dataType;
 	strcpy(nod->name, arrayName);
+	printf("\n\nSizeOfARRAy = %d\n\n", maxSize);
 	if(maxSize <= 20)
 	{
 		nod->maxSize = maxSize;
@@ -242,7 +251,7 @@ void printFunctionList()
 	printf("Printare lista Functii:\n");
 	while(currentFunction != NULL)
 	{
-		printf("type = %s | name = %s | nrOfParameters = %d | scope = %s| signature = %d\n" ,
+		printf("return_type = %s | name = %s | nrOfParameters = %d | scope = %s| signature = %d\n" ,
 						currentFunction->returnType, currentFunction->name, currentFunction->nrOfParameters, currentFunction->scope, currentFunction->signature);
 
 		printf("List of parameters: ");
@@ -364,5 +373,11 @@ void ArrayDimensionError()
 void FunctionNoOfParametersError()
 {
 	printf("\nERROR ON LINE %d : The maximum number of parameters is 5!\n", yylineno);
+    exit(0);
+}
+
+void ConstAsignementError(char* identifier)
+{
+	printf("\nERROR ON LINE %d : %s is declared as constant!\n", yylineno, identifier);
     exit(0);
 }

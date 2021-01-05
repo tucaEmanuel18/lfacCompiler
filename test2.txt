@@ -1,6 +1,6 @@
-float x := 7.6;
+float xF := 7.6;
 int var1 := 4;
-int y;
+int yF;
 float fvar1 := 4.0;
 const float const_fvar1 := 4.0;
 bool adevarat := true;
@@ -13,14 +13,24 @@ int z := 17;
 
 int x[20] := {1, 2, 3, 4, 5, 6, 7, 8};
 int y[10];
-float x[20] := {1.2, 2.5, 0.00002};
+float xA[20] := {1.2, 2.5, 0.00002};
 char Tiberiu[8] := {'T', 'i', 'b', 'e', 'r', 'i', 'u'};
 string Emanuel[2] := {"Emanuel", "Tuca"};
 bool aha[2];
 
 
+int sum(int x, int y)
+{
+	int se;
+	int pare;
+	int ca;
+};
+
 int sum(int x, int y);
+{
+
+};
 
 {
-  x := 3;
+	
 }
