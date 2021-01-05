@@ -8,6 +8,13 @@ char DataType[50];
 char AuxBuffer[50];
 char Scope[50] = "global";
 void ArrayDimensionError();
+void FunctionNoOfParametersError();
+
+typedef struct parameter
+    {
+    	char type[10];
+    	char identifier[10];
+    }para;
 
 // variabile predefinite
 typedef struct var {
@@ -103,8 +110,8 @@ void printArrayList()
 	printf("Printare lista array:\n");
 	while(currentArray != NULL)
 	{
-		printf("type = %s | name = %s | maxSize = %d | actualSize = %d | scope = %s| used = %d | constant = %d\n" ,
-						currentArray->type, currentArray->name, currentArray->maxSize, currentArray->actualSize, currentArray->scope, currentArray->used, currentArray->constant);
+		printf("type = %s | name = %s | maxSize = %d | actualSize = %d | scope = %s | used = %d\n" ,
+						currentArray->type, currentArray->name, currentArray->maxSize, currentArray->actualSize, currentArray->scope, currentArray->used);
 		
 
 		if(currentArray->actualSize != 0)
@@ -158,8 +165,6 @@ void insertArray(char* dataType, char* arrayName, int maxSize, int actualSize, c
 		}
 	}
 	strcpy(nod->scope, scope);
-
-	nod->constant = constant;
 	nod->used = false;
 
 	nod->next = NULL;
@@ -217,27 +222,55 @@ int extractMaxSize(char* arrayIdentifier)
 
 // functions
 typedef struct function {
-    char *return_type;
+    char *returnType;
     char name[50];
-    int nrOfParameter;
-    struct parameter
-    {
-    	char type[10];
-    	char identifier[10];
-    }parameters[5];
+    int nrOfParameters;
+    
+ 	struct parameter parameters[5];
     char scope[50];
+    bool signature;
 
-	struct array *next;
+	struct function *next;
 } function;
 
 // lista de arrayuri
 function *firstFunction = NULL, *lastFunction = NULL, *currentFunction;
 
-
-bool lookupFunction(char *name) {
+void printFunctionList()
+{
 	currentFunction = firstFunction;
-	while (currentFunction != NULL) {
-		if (strcmp(currentFunction->name, name) == 0) break;
+	printf("Printare lista Functii:\n");
+	while(currentFunction != NULL)
+	{
+		printf("type = %s | name = %s | nrOfParameters = %d | scope = %s| signature = %d\n" ,
+						currentFunction->returnType, currentFunction->name, currentFunction->nrOfParameters, currentFunction->scope, currentFunction->signature);
+
+		printf("List of parameters: ");
+		for(int i = 0 ; i < currentFunction->nrOfParameters; i++)
+		{
+			printf("%s %s, ", currentFunction->parameters[i].type, currentFunction->parameters[i].identifier);
+		}
+		printf("\n");
+
+		currentFunction = currentFunction->next;
+	}
+}
+
+
+bool lookupFunction(char *name, bool newSignature) {
+	currentFunction = firstFunction;
+	while (currentFunction != NULL) 
+	{
+		if (strcmp(currentFunction->name, name) == 0)
+		 	{
+		 		if(currentFunction->signature != true)
+		 		    break;
+		 		else
+		 		{
+		 			if(newSignature == true)
+		 				break;
+		 		}
+		 	}
 		currentFunction = currentFunction->next;
 	}
 
@@ -247,42 +280,39 @@ bool lookupFunction(char *name) {
 }
 
 
-void insertArray(char* dataType, char* arrayName, int maxSize, int actualSize, char arrayValues[20][20], char* scope, bool constant)
+void insertFunction(char* returnType, char* functionName, int nrOfParameters, struct parameter parameters[5], char* scope, bool signature)
 {
 
 	function *nod = (function *) malloc(sizeof(function));
 	
-	nod->type = dataType;
-	strcpy(nod->name, arrayName);
-	if(maxSize <= 20)
+	nod->returnType = returnType;
+	strcpy(nod->name, functionName);
+	if(nrOfParameters <= 5)
 	{
-		nod->maxSize = maxSize;
+		nod->nrOfParameters = nrOfParameters;
 	}
 	else
 	{
-		ArrayDimensionError();
+		FunctionNoOfParametersError();
 	}
-	
-	nod->actualSize = actualSize;
-	if(actualSize != 0)
+	if(nrOfParameters != 0)
 	{
-		for(int i = 0; i < actualSize; i++)
+		for(int i = 0; i < nrOfParameters; i++)
 		{
-			strcpy(nod->values[i], arrayValues[i]);
+			strcpy(nod->parameters[i].type, parameters[i].type);
+			strcpy(nod->parameters[i].identifier, parameters[i].identifier);
 		}
 	}
 	strcpy(nod->scope, scope);
-
-	nod->constant = constant;
-	nod->used = false;
+	nod->signature = signature;
 
 	nod->next = NULL;
 	if (firstFunction == NULL) 
 		firstFunction = lastFunction = nod;
 	else 
 	{
-		lastArray->next = nod;
-		lastArray = nod;
+		lastFunction->next = nod;
+		lastFunction = nod;
 	}
 }
 
@@ -328,5 +358,11 @@ void ListTypesError()
 void ArrayDimensionError()
 {
 	printf("\nERROR ON LINE %d : The array dimension can't not be greater than 20!\n", yylineno);
+    exit(0);
+}
+
+void FunctionNoOfParametersError()
+{
+	printf("\nERROR ON LINE %d : The maximum number of parameters is 5!\n", yylineno);
     exit(0);
 }

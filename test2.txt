@@ -17,6 +17,10 @@ float x[20] := {1.2, 2.5, 0.00002};
 char Tiberiu[8] := {'T', 'i', 'b', 'e', 'r', 'i', 'u'};
 string Emanuel[2] := {"Emanuel", "Tuca"};
 bool aha[2];
+
+
+int sum(int x, int y);
+
 {
   x := 3;
 }

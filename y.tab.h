@@ -99,7 +99,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 55 "syntax.y"
+#line 61 "syntax.y"
 
   char* dataType;
   int intVal;

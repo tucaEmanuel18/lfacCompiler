@@ -38,18 +38,21 @@ extern void storeDataType(char* data_type);
 			}\
 		}
 
+
+
+struct parameter FunctionParameters[5];
+int nrOfFunctionParameters = 0;
+
+//
 char arrayValueType[10];
 char arrayValues[20][20];
 int arrayValuesCounter = 0;
 bool firstArrayType = true;
 
-// struct identifierList
-// {
-// 	char* name;
-// 	char* value;
-// 	char set;
-// };
 
+
+
+int delarationsCounter = 0;
 %}
 
 %union {
@@ -102,7 +105,7 @@ bool firstArrayType = true;
 %left BOOL_OPERATOR 
 %left ARITHMETIC_OPERATOR
 %%
-CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n"); printVarList(); printArrayList();}
+CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n"); printVarList(); printArrayList(); printFunctionList();}
      ;
 DECLARATIONS : DECLARATION ';'
             | DECLARATIONS  DECLARATION ';'
@@ -211,10 +214,44 @@ EXPRESSION : DATA_TYPE  IDENTIFIER {
           | IDENTIFIER IDENTIFIER ASSIGN '{' LIST_OF_VALUES '}'                           {/*conditie: primul identifier sa fie de tip caps*/}
           | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')'{
 
-          													 
+          													 if(!lookupFunction($2, true))
+          													 {
+
+          													 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, true);
+
+          													 	//curatam structurile de date alterate
+          													 	for(int i = 0; i < 5; i++)
+          													 	{
+          													 		bzero(FunctionParameters[i].type, 10);
+          													 		bzero(FunctionParameters[i].identifier, 10);
+          													 	}
+          													 	nrOfFunctionParameters = 0;
+          													 }
+          													 else
+          													 {
+          													 	DuplicateIdentifierError($2);
+          													 }
           												   }
 
-          | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'
+          | DATA_TYPE IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}' 	{
+	      																				if(!lookupFunction($2, true))
+							          													 {
+
+
+							          													 	insertFunction($1, $2, nrOfFunctionParameters, FunctionParameters, Scope, false);
+							          													 	//curatam structurile de date alterate
+							          													 	for(int i = 0; i < 5; i++)
+							          													 	{
+							          													 		bzero(FunctionParameters[i].type, 10);
+							          													 		bzero(FunctionParameters[i].identifier, 10);
+							          													 	}
+							          													 	nrOfFunctionParameters = 0;
+							          													 }
+							          													 else
+							          													 {
+							          													 	DuplicateIdentifierError($2);
+							          													 }
+							          												}
           | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' 
           | VOID IDENTIFIER '(' LIST_OF_PARAMETERS ')' '{' CODE_FUNCTION '}'
           | IDENTIFIER IDENTIFIER '(' LIST_OF_PARAMETERS ')'                              {/*conditie: primul identifier sa fie de tip caps*/}
@@ -260,8 +297,16 @@ VALUE : INTEGER_VALUE     {$$.type="int", $$.intVal=$1;}
      | BOOL_VALUE		  {$$.type="bool", $$.intVal=$1;}
      ; 
 
-LIST_OF_PARAMETERS : DATA_TYPE IDENTIFIER
+LIST_OF_PARAMETERS : DATA_TYPE IDENTIFIER {
+										 	strcpy(FunctionParameters[nrOfFunctionParameters].type, $1);
+										 	strcpy(FunctionParameters[nrOfFunctionParameters++].identifier, $2);
+										  }
                    | LIST_OF_PARAMETERS ',' DATA_TYPE IDENTIFIER
+                   							{
+                   								strcpy(FunctionParameters[nrOfFunctionParameters].type, $3);
+										 		strcpy(FunctionParameters[nrOfFunctionParameters++].identifier, $4);
+                   							}
+
                    | DATA_TYPE ARRAY_PARAM_ID
                    | LIST_OF_PARAMETERS ',' DATA_TYPE ARRAY_PARAM_ID
                    | CONST DATA_TYPE IDENTIFIER
