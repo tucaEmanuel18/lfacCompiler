@@ -513,6 +513,7 @@ ASSIGNEMENT : IDENTIFIER ASSIGN BLOCK_EXPRESSION    {
 																{
 																	StringValue($3);
 				  													strcpy(actualVar->value, AuxBuffer);
+				  													actualVar->set = true;
 																}
 																else
 																	ConstAsignementError($1);
