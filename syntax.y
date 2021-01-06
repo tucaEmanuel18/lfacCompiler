@@ -92,8 +92,11 @@ bool firstArrayType = true;
 %token <strVal> IDENTIFIER
 %token <dataType> VOID
 %token IF FOR WHILE ELSE EVAL
+%token <dataType> PRINT
 %token ASSIGN  RELATIONAL_OPERATOR BOOL_OPERATOR ARITHMETIC_OPERATOR
-%token <strVal> ARRAY_ID ARRAY_PARAM_ID
+%token VAR_TABLE ARRAY_TABLE FUNCTION_TABLE 
+%token <strVal> ARRAY_ID 
+%token <strVal> ARRAY_PARAM_ID
 %token CONST  
 
 
@@ -112,7 +115,7 @@ bool firstArrayType = true;
 %left BOOL_OPERATOR 
 %left ARITHMETIC_OPERATOR
 %%
-CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n"); printVarList(); printArrayList(); printFunctionList();}
+CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n");}
      ;
 DECLARATIONS : DECLARATION ';'				
             | DECLARATIONS  DECLARATION ';'
@@ -454,6 +457,46 @@ STATEMENT : ASSIGNEMENT
           | FUNCTION_CALL
           | CONTROL_STATEMENT
           | EVAL '(' EVAL_EXP ')' {printf("valoarea expresiei: %d\n", $3);}
+          | PRINT '(' IDENTIFIER ')' { 
+          								if(lookupVar($3))
+          								{
+          									var* nod = getVar($3);
+          									printf("LINE: %d: type = %s | name = %s | value = %s | scope = %s| set = %d | used = %d | constant = %d\n" ,
+													yylineno, nod->type, nod->name, nod->value, nod->scope, nod->set, nod->used, nod->constant);
+          								}
+          								else
+          								{
+          									UndeclaredVariableError($3);
+          								}
+          							 }
+         | PRINT '(' ARRAY_PARAM_ID ')' {
+         									char name[10];
+         									strcpy(name, extractName($3));
+         									if(lookupArray(name))
+         									{
+         										array* nod = getArray(name);
+         										printf("LINE: %d : type = %s | name = %s | maxSize = %d | actualSize = %d | scope = %s | used = %d\n" ,
+														yylineno, nod->type, nod->name, nod->maxSize, nod->actualSize, nod->scope, nod->used);
+		
+
+												if(nod->actualSize != 0)
+												{
+													printf("Values: ");
+													for(int i = 0; i < nod->actualSize; i++)
+													{
+														printf("%s, ", nod->values[i]);
+													}
+													printf("\n");
+												}
+         									}
+         									else
+         									{
+         										UndeclaredVariableError($3);
+         									}
+         								}
+      	 | PRINT '(' VAR_TABLE ')'  	{printVarList();}
+      	 | PRINT '(' ARRAY_TABLE ')'    {printArrayList();}
+      	 | PRINT '(' FUNCTION_TABLE ')' {printFunctionList();}
           ;
 
 

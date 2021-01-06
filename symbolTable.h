@@ -37,7 +37,7 @@ var *firstVar = NULL, *lastVar = NULL, *currentVar;
 void printVarList()
 {
 	currentVar = firstVar;
-	printf("Printare lista variabile:\n");
+	printf("\nPrintare lista variabile:\n");
 	while(currentVar != NULL)
 	{
 		printf("type = %s | name = %s | value = %s | scope = %s| set = %d | used = %d | constant = %d\n" ,
@@ -115,7 +115,7 @@ array *firstArray = NULL, *lastArray = NULL, *currentArray;
 void printArrayList()
 {
 	currentArray = firstArray;
-	printf("Printare lista array:\n");
+	printf("\nPrintare lista array:\n");
 	while(currentArray != NULL)
 	{
 		printf("type = %s | name = %s | maxSize = %d | actualSize = %d | scope = %s | used = %d\n" ,
@@ -147,6 +147,7 @@ bool lookupArray(char *name) {
 		return false;
 	return true;
 }
+
 array* getArray(char *name) {
 	currentArray = firstArray;
 	while (currentArray != NULL) {

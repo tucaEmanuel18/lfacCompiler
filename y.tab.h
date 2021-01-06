@@ -63,13 +63,17 @@ extern int yydebug;
     WHILE = 269,
     ELSE = 270,
     EVAL = 271,
-    ASSIGN = 272,
-    RELATIONAL_OPERATOR = 273,
-    BOOL_OPERATOR = 274,
-    ARITHMETIC_OPERATOR = 275,
-    ARRAY_ID = 276,
-    ARRAY_PARAM_ID = 277,
-    CONST = 278
+    PRINT = 272,
+    ASSIGN = 273,
+    RELATIONAL_OPERATOR = 274,
+    BOOL_OPERATOR = 275,
+    ARITHMETIC_OPERATOR = 276,
+    VAR_TABLE = 277,
+    ARRAY_TABLE = 278,
+    FUNCTION_TABLE = 279,
+    ARRAY_ID = 280,
+    ARRAY_PARAM_ID = 281,
+    CONST = 282
   };
 #endif
 /* Tokens.  */
@@ -87,13 +91,17 @@ extern int yydebug;
 #define WHILE 269
 #define ELSE 270
 #define EVAL 271
-#define ASSIGN 272
-#define RELATIONAL_OPERATOR 273
-#define BOOL_OPERATOR 274
-#define ARITHMETIC_OPERATOR 275
-#define ARRAY_ID 276
-#define ARRAY_PARAM_ID 277
-#define CONST 278
+#define PRINT 272
+#define ASSIGN 273
+#define RELATIONAL_OPERATOR 274
+#define BOOL_OPERATOR 275
+#define ARITHMETIC_OPERATOR 276
+#define VAR_TABLE 277
+#define ARRAY_TABLE 278
+#define FUNCTION_TABLE 279
+#define ARRAY_ID 280
+#define ARRAY_PARAM_ID 281
+#define CONST 282
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -119,7 +127,7 @@ union YYSTYPE
 
    
 
-#line 123 "y.tab.h"
+#line 131 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
