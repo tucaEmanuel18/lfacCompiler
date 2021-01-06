@@ -18,7 +18,7 @@
 "print"                                         {/*printf("PRINT");*/ yylval.dataType=strdup(yytext); return PRINT;}
 "varTable"										{return VAR_TABLE;}
 "arrayTable"									{return ARRAY_TABLE;}
-"functionTAble"									{return FUNCTION_TABLE;}		
+"functionTable"									{return FUNCTION_TABLE;}		
 ":="                                             {/*printf("ASSIGN ");*/ return ASSIGN;}
 "||"|"&&"                               {/*printf("BOOL_OPERATOR");*/ return BOOL_OPERATOR;}
 [a-zA-Z][_a-zA-Z0-9]*(\[\])+				{/*printf("ARRAY_PARAM_ID");*/ yylval.strVal = strdup(yytext); return ARRAY_PARAM_ID;}

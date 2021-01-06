@@ -59,6 +59,10 @@ int arrayValuesCounter = 0;
 bool firstArrayType = true;
 
 
+//eval
+char evalInfo[20][20];
+int evalCounter = 0;
+
 %}
 
 %union {
@@ -115,7 +119,11 @@ bool firstArrayType = true;
 %left BOOL_OPERATOR 
 %left ARITHMETIC_OPERATOR
 %%
-CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n");}
+CODE : DECLARATIONS BLOCK {printf("program corect sintactic\n");
+							
+								for(int i = 0; i < evalCounter; i++)
+									printf("eval %d : valoarea expresiei : %s\n", i, evalInfo[i]);
+							}
      ;
 DECLARATIONS : DECLARATION ';'				
             | DECLARATIONS  DECLARATION ';'
@@ -456,7 +464,10 @@ STATEMENT_LIST : STATEMENT ';'
 STATEMENT : ASSIGNEMENT
           | FUNCTION_CALL
           | CONTROL_STATEMENT
-          | EVAL '(' EVAL_EXP ')' {printf("valoarea expresiei: %d\n", $3);}
+          | EVAL '(' EVAL_EXP ')' { 
+          							intToString($3);
+          							strcpy(evalInfo[evalCounter++], AuxBuffer);
+          						 }
           | PRINT '(' IDENTIFIER ')' { 
           								if(lookupVar($3))
           								{
@@ -589,7 +600,7 @@ BLOCK_EXPRESSION : VALUE {
 										var* actualVar = getVar($1);
 										if(actualVar->set == true)
 										{
-											strcpy($$.type, actualVar->type);
+											$$.type = actualVar->type;
 											if(strcmp(actualVar->type, "int") == 0)
 											{
 												$$.intVal = atoi(actualVar->value);
@@ -682,9 +693,7 @@ BLOCK_EXPRESSION : VALUE {
 
                   					}
                   | '(' BLOCK_EXPRESSION ')'  	{ 
-                  									strcpy($$.type, $2.type);
-
-
+                  									$$.type = $2.type;
 			          								if(strcmp($2.type, "int") == 0)
 			          									$$.intVal = $2.intVal;
 			          								else if (strcmp($2.type, "float") == 0)
@@ -699,9 +708,11 @@ BLOCK_EXPRESSION : VALUE {
 			          									$$.charVal = $2.charVal;
 			          								}else if (strcmp($2.type, "string") == 0)
 			          								{
-			          									strcpy($$.strVal, $2.strVal);
+			          									$$.strVal = $2.strVal;
 			          								}
 
+			          								
+;
                   								}
                	  | BLOCK_EXPRESSION '+' BLOCK_EXPRESSION { 
                	  												if(strcmp($1.type, $3.type)== 0)
@@ -709,14 +720,14 @@ BLOCK_EXPRESSION : VALUE {
                	  													if(strcmp($1.type, "int") == 0)
                	  													{
                	  														$$.intVal = $1.intVal + $3.intVal;
-               	  														strcpy($$.type, $1.type);
+               	  														$$.type = $1.type;
                	  													}else if(strcmp($1.type, "float") == 0)
                	  													{
                	  														$$.floatVal = $1.floatVal + $3.floatVal;
-               	  														strcpy($$.type, $1.type);
+               	  														$$.type = $1.type;
                	  													}else if (strcmp($1.type, "string") == 0)
                	  													{
-               	  														strcpy($$.strVal, $1.strVal);
+               	  														$$.strVal = $1.strVal;
                	  														int length = strlen($$.strVal);
                	  														$$.strVal[length - 1] = '\0';
                	  														strcat($$.strVal, $3.strVal + 1);
@@ -1016,10 +1027,10 @@ CONDITION :  SMALL_CONDITION
 SMALL_CONDITION : BLOCK_EXPRESSION RELATIONAL_OPERATOR BLOCK_EXPRESSION
                 ;
 
-EVAL_EXP : EVAL_EXP '+' EVAL_EXP	{$$=$1+$3; printf("e->e+e | %d + %d = %d ", $1, $3, $$);}
-          | EVAL_EXP '-' EVAL_EXP	{$$=$1-$3; printf("e->e-e | %d - %d = %d ", $1, $3, $$);}
-          | EVAL_EXP '*' EVAL_EXP	{$$=$1*$3; printf("e->e*e | %d * %d = %d ", $1, $3, $$);}
-          | EVAL_EXP '/' EVAL_EXP	{$$=$1/$3; printf("e->e/e | %d / %d = %d ", $1, $3, $$);}
+EVAL_EXP : EVAL_EXP '+' EVAL_EXP	{$$=$1+$3; }
+          | EVAL_EXP '-' EVAL_EXP	{$$=$1-$3; }
+          | EVAL_EXP '*' EVAL_EXP	{$$=$1*$3; }
+          | EVAL_EXP '/' EVAL_EXP	{$$=$1/$3; }
           | '(' EVAL_EXP ')'		{$$= $2;}
           | INTEGER_VALUE				{$$=$1;}
           ;

@@ -17,7 +17,8 @@ int first;
 int a := 2;
 int b := 5;
 int c := 6;
-
+int wi := 2;
+int ii := 1;
 
 int sum(int x, int y);
 int sum(int x, int y)
@@ -32,6 +33,9 @@ int sum(int x, int y)
 {
 	first := b + c;
 	a := first;
+
+	sum( (a + c) * b, b);
+
 	print(first);
 	print(a);
 

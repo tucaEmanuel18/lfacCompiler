@@ -1,0 +1,16 @@
+int int_V := 2;
+float float_V := 3.2;
+int getValue(int z, float f)
+{
+	bool da := false;
+	{
+	 int_V := 3;
+	}
+};
+
+{
+	getValue(float_V, int_V);
+	getValue(int_V, float_V, int_V);
+	getValue(int_V);
+	getValue(int_V, float_V);
+}

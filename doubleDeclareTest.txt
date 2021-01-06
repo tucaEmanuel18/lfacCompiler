@@ -1,0 +1,27 @@
+float x := 0.2;
+
+int arr[20] := {2, 5, 7};
+int array[19];
+
+
+
+bool isPrime(int x)
+{
+	int aha;
+	{
+	x := 0.3;
+	}
+};
+bool isPrime()
+{
+	int aha1
+	{
+	x := 0.3;
+	}
+};
+
+
+{
+	x := 0.3;
+}
+

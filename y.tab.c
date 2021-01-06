@@ -128,8 +128,12 @@ int arrayValuesCounter = 0;
 bool firstArrayType = true;
 
 
+//eval
+char evalInfo[20][20];
+int evalCounter = 0;
 
-#line 133 "y.tab.c"
+
+#line 137 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -235,7 +239,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 64 "syntax.y"
+#line 68 "syntax.y"
 
   char* dataType;
   int intVal;
@@ -255,7 +259,7 @@ union YYSTYPE
 
    
 
-#line 259 "y.tab.c"
+#line 263 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -633,16 +637,16 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   118,   118,   120,   121,   124,   127,   137,   157,   177,
-     191,   223,   224,   225,   226,   246,   267,   286,   305,   325,
-     344,   363,   382,   383,   386,   392,   418,   419,   420,   421,
-     422,   425,   429,   435,   436,   437,   438,   439,   440,   441,
-     442,   445,   446,   449,   452,   453,   456,   457,   458,   459,
-     460,   472,   497,   498,   499,   503,   531,   561,   563,   586,
-     627,   628,   664,   684,   706,   736,   760,   783,   821,   841,
-     842,   845,   846,   849,   901,   957,   958,   961,   981,  1004,
-    1005,  1006,  1007,  1010,  1011,  1012,  1013,  1016,  1019,  1020,
-    1021,  1022,  1023,  1024
+       0,   122,   122,   128,   129,   132,   135,   145,   165,   185,
+     199,   231,   232,   233,   234,   254,   275,   294,   313,   333,
+     352,   371,   390,   391,   394,   400,   426,   427,   428,   429,
+     430,   433,   437,   443,   444,   445,   446,   447,   448,   449,
+     450,   453,   454,   457,   460,   461,   464,   465,   466,   467,
+     471,   483,   508,   509,   510,   514,   542,   572,   574,   597,
+     638,   639,   675,   695,   717,   747,   771,   794,   832,   852,
+     853,   856,   857,   860,   912,   968,   969,   972,   992,  1015,
+    1016,  1017,  1018,  1021,  1022,  1023,  1024,  1027,  1030,  1031,
+    1032,  1033,  1034,  1035
 };
 #endif
 
@@ -1588,13 +1592,17 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 118 "syntax.y"
-                          {printf("program corect sintactic\n");}
-#line 1594 "y.tab.c"
+#line 122 "syntax.y"
+                          {printf("program corect sintactic\n");
+							
+								for(int i = 0; i < evalCounter; i++)
+									printf("eval %d : valoarea expresiei : %s\n", i, evalInfo[i]);
+							}
+#line 1602 "y.tab.c"
     break;
 
   case 6:
-#line 127 "syntax.y"
+#line 135 "syntax.y"
                                    { 
 									if(!lookupVar((yyvsp[0].strVal)))
 									{
@@ -1605,11 +1613,11 @@ yyreduce:
 										DuplicateIdentifierError((yyvsp[0].strVal));
 									}
 								}
-#line 1609 "y.tab.c"
+#line 1617 "y.tab.c"
     break;
 
   case 7:
-#line 137 "syntax.y"
+#line 145 "syntax.y"
                                                        { 
 		  											if(!lookupVar((yyvsp[-2].strVal)))
 		  											{
@@ -1630,11 +1638,11 @@ yyreduce:
 			  										}
 					  								
 		  										}
-#line 1634 "y.tab.c"
+#line 1642 "y.tab.c"
     break;
 
   case 8:
-#line 157 "syntax.y"
+#line 165 "syntax.y"
                                                     {
           													if(!lookupVar((yyvsp[-2].strVal)))
 				  											{
@@ -1655,11 +1663,11 @@ yyreduce:
 					  										}
 
           											}
-#line 1659 "y.tab.c"
+#line 1667 "y.tab.c"
     break;
 
   case 9:
-#line 177 "syntax.y"
+#line 185 "syntax.y"
                                 {
 
           							char name[50];
@@ -1674,11 +1682,11 @@ yyreduce:
           								DuplicateIdentifierError((yyvsp[0].strVal));
           							}
           						}
-#line 1678 "y.tab.c"
+#line 1686 "y.tab.c"
     break;
 
   case 10:
-#line 191 "syntax.y"
+#line 199 "syntax.y"
                                                               {
           															if(!lookupArray((yyvsp[-4].strVal)))
 								          							{
@@ -1710,23 +1718,23 @@ yyreduce:
 								          								DuplicateIdentifierError((yyvsp[-4].strVal));
 								          							}		
           													  }
-#line 1714 "y.tab.c"
+#line 1722 "y.tab.c"
     break;
 
   case 12:
-#line 224 "syntax.y"
+#line 232 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1720 "y.tab.c"
+#line 1728 "y.tab.c"
     break;
 
   case 13:
-#line 225 "syntax.y"
+#line 233 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1726 "y.tab.c"
+#line 1734 "y.tab.c"
     break;
 
   case 14:
-#line 226 "syntax.y"
+#line 234 "syntax.y"
                                                            {
 
           													 if(!lookupFunction((yyvsp[-3].strVal), true))
@@ -1747,11 +1755,11 @@ yyreduce:
           													 	DuplicateIdentifierError((yyvsp[-3].strVal));
           													 }
           												   }
-#line 1751 "y.tab.c"
+#line 1759 "y.tab.c"
     break;
 
   case 15:
-#line 246 "syntax.y"
+#line 254 "syntax.y"
                                           {
 
 											 if(!lookupFunction((yyvsp[-2].strVal), true))
@@ -1772,11 +1780,11 @@ yyreduce:
 											 	DuplicateIdentifierError((yyvsp[-2].strVal));
 											 }
 		  								 }
-#line 1776 "y.tab.c"
+#line 1784 "y.tab.c"
     break;
 
   case 16:
-#line 267 "syntax.y"
+#line 275 "syntax.y"
                                                                                         {
 	      																				if(!lookupFunction((yyvsp[-6].strVal), false))
 							          													 {
@@ -1796,11 +1804,11 @@ yyreduce:
 							          													 	DuplicateIdentifierError((yyvsp[-6].strVal));
 							          													 }
 								          												}
-#line 1800 "y.tab.c"
+#line 1808 "y.tab.c"
     break;
 
   case 17:
-#line 286 "syntax.y"
+#line 294 "syntax.y"
                                                                        {
 		  															if(!lookupFunction((yyvsp[-5].strVal), false))
 		          													 {
@@ -1820,11 +1828,11 @@ yyreduce:
 		          													 	DuplicateIdentifierError((yyvsp[-5].strVal));
 		          													 }
 		  														}
-#line 1824 "y.tab.c"
+#line 1832 "y.tab.c"
     break;
 
   case 18:
-#line 305 "syntax.y"
+#line 313 "syntax.y"
                                                        {
           													if(!lookupFunction((yyvsp[-3].strVal), true))
 															 {
@@ -1845,11 +1853,11 @@ yyreduce:
 															 }
 
           												}
-#line 1849 "y.tab.c"
+#line 1857 "y.tab.c"
     break;
 
   case 19:
-#line 325 "syntax.y"
+#line 333 "syntax.y"
                                                                              {
           																		if(!lookupFunction((yyvsp[-6].strVal), false))
 						          													 {
@@ -1869,11 +1877,11 @@ yyreduce:
 						          													 	DuplicateIdentifierError((yyvsp[-6].strVal));
 						          													 }
           																		}
-#line 1873 "y.tab.c"
+#line 1881 "y.tab.c"
     break;
 
   case 20:
-#line 344 "syntax.y"
+#line 352 "syntax.y"
                                    {
           								 if(!lookupFunction((yyvsp[-2].strVal), true))
 											 {
@@ -1893,11 +1901,11 @@ yyreduce:
 											 	DuplicateIdentifierError((yyvsp[-2].strVal));
 											 }
           						   }
-#line 1897 "y.tab.c"
+#line 1905 "y.tab.c"
     break;
 
   case 21:
-#line 363 "syntax.y"
+#line 371 "syntax.y"
                                                                 {
           														if(!lookupFunction((yyvsp[-5].strVal), false))
 		          													 {
@@ -1917,34 +1925,34 @@ yyreduce:
 		          													 	DuplicateIdentifierError((yyvsp[-5].strVal));
 		          													 }
           													}
-#line 1921 "y.tab.c"
+#line 1929 "y.tab.c"
     break;
 
   case 22:
-#line 382 "syntax.y"
+#line 390 "syntax.y"
                                                                         {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1927 "y.tab.c"
+#line 1935 "y.tab.c"
     break;
 
   case 23:
-#line 383 "syntax.y"
+#line 391 "syntax.y"
                                                                                           {/*conditie: primul identifier sa fie de tip caps*/}
-#line 1933 "y.tab.c"
+#line 1941 "y.tab.c"
     break;
 
   case 24:
-#line 386 "syntax.y"
+#line 394 "syntax.y"
                         {
 							bzero(arrayValueType, 10);
 							strcpy(arrayValueType, (yyvsp[0].info).type);
 							StringValue((yyvsp[0].info));
 							strcpy(arrayValues[arrayValuesCounter++], AuxBuffer);
 						}
-#line 1944 "y.tab.c"
+#line 1952 "y.tab.c"
     break;
 
   case 25:
-#line 393 "syntax.y"
+#line 401 "syntax.y"
                                                 {
 			   				if(firstArrayType)
 			   				{
@@ -1968,77 +1976,80 @@ yyreduce:
 			   					}
 			   				}
 			   			}
-#line 1972 "y.tab.c"
+#line 1980 "y.tab.c"
     break;
 
   case 26:
-#line 418 "syntax.y"
+#line 426 "syntax.y"
                           {(yyval.info).type="int", (yyval.info).intVal=(yyvsp[0].intVal);}
-#line 1978 "y.tab.c"
+#line 1986 "y.tab.c"
     break;
 
   case 27:
-#line 419 "syntax.y"
+#line 427 "syntax.y"
                                   {(yyval.info).type="float", (yyval.info).floatVal=(yyvsp[0].floatVal);}
-#line 1984 "y.tab.c"
+#line 1992 "y.tab.c"
     break;
 
   case 28:
-#line 420 "syntax.y"
+#line 428 "syntax.y"
                           {(yyval.info).type="char", (yyval.info).charVal=(yyvsp[0].charVal);}
-#line 1990 "y.tab.c"
+#line 1998 "y.tab.c"
     break;
 
   case 29:
-#line 421 "syntax.y"
+#line 429 "syntax.y"
                                   {(yyval.info).type="string", (yyval.info).strVal=(yyvsp[0].strVal);}
-#line 1996 "y.tab.c"
+#line 2004 "y.tab.c"
     break;
 
   case 30:
-#line 422 "syntax.y"
+#line 430 "syntax.y"
                                   {(yyval.info).type="bool", (yyval.info).intVal=(yyvsp[0].intVal);}
-#line 2002 "y.tab.c"
+#line 2010 "y.tab.c"
     break;
 
   case 31:
-#line 425 "syntax.y"
+#line 433 "syntax.y"
                                           {
 										 	strcpy(FunctionParameters[nrOfFunctionParameters].type, (yyvsp[-1].dataType));
 										 	strcpy(FunctionParameters[nrOfFunctionParameters++].identifier, (yyvsp[0].strVal));
 										  }
-#line 2011 "y.tab.c"
+#line 2019 "y.tab.c"
     break;
 
   case 32:
-#line 430 "syntax.y"
+#line 438 "syntax.y"
                                                                         {
                    								strcpy(FunctionParameters[nrOfFunctionParameters].type, (yyvsp[-1].dataType));
 										 		strcpy(FunctionParameters[nrOfFunctionParameters++].identifier, (yyvsp[0].strVal));
                    							}
-#line 2020 "y.tab.c"
+#line 2028 "y.tab.c"
     break;
 
   case 39:
-#line 441 "syntax.y"
+#line 449 "syntax.y"
                                                                                             {/*conditie: primul identifier sa fie de tip caps*/}
-#line 2026 "y.tab.c"
+#line 2034 "y.tab.c"
     break;
 
   case 40:
-#line 442 "syntax.y"
+#line 450 "syntax.y"
                                                                                              {/*conditie: primul identifier sa fie de tip caps*/}
-#line 2032 "y.tab.c"
+#line 2040 "y.tab.c"
     break;
 
   case 49:
-#line 459 "syntax.y"
-                                  {printf("valoarea expresiei: %d\n", (yyvsp[-1].intVal));}
-#line 2038 "y.tab.c"
+#line 467 "syntax.y"
+                                  { 
+          							intToString((yyvsp[-1].intVal));
+          							strcpy(evalInfo[evalCounter++], AuxBuffer);
+          						 }
+#line 2049 "y.tab.c"
     break;
 
   case 50:
-#line 460 "syntax.y"
+#line 471 "syntax.y"
                                      { 
           								if(lookupVar((yyvsp[-1].strVal)))
           								{
@@ -2051,11 +2062,11 @@ yyreduce:
           									UndeclaredVariableError((yyvsp[-1].strVal));
           								}
           							 }
-#line 2055 "y.tab.c"
+#line 2066 "y.tab.c"
     break;
 
   case 51:
-#line 472 "syntax.y"
+#line 483 "syntax.y"
                                         {
          									char name[10];
          									strcpy(name, extractName((yyvsp[-1].strVal)));
@@ -2081,29 +2092,29 @@ yyreduce:
          										UndeclaredVariableError((yyvsp[-1].strVal));
          									}
          								}
-#line 2085 "y.tab.c"
+#line 2096 "y.tab.c"
     break;
 
   case 52:
-#line 497 "syntax.y"
+#line 508 "syntax.y"
                                         {printVarList();}
-#line 2091 "y.tab.c"
+#line 2102 "y.tab.c"
     break;
 
   case 53:
-#line 498 "syntax.y"
+#line 509 "syntax.y"
                                         {printArrayList();}
-#line 2097 "y.tab.c"
+#line 2108 "y.tab.c"
     break;
 
   case 54:
-#line 499 "syntax.y"
+#line 510 "syntax.y"
                                         {printFunctionList();}
-#line 2103 "y.tab.c"
+#line 2114 "y.tab.c"
     break;
 
   case 55:
-#line 503 "syntax.y"
+#line 514 "syntax.y"
                                                     {
 														if(lookupVar((yyvsp[-2].strVal)))
 														{
@@ -2132,11 +2143,11 @@ yyreduce:
 															UndeclaredVariableError((yyvsp[-2].strVal));
 														}
 												    }
-#line 2136 "y.tab.c"
+#line 2147 "y.tab.c"
     break;
 
   case 56:
-#line 531 "syntax.y"
+#line 542 "syntax.y"
                                                {
             										char name[50];
 				          							strcpy(name, extractName((yyvsp[-2].strVal)));
@@ -2166,11 +2177,11 @@ yyreduce:
 				          								UndeclaredVariableError(name);
 				          							}
             								   }
-#line 2170 "y.tab.c"
+#line 2181 "y.tab.c"
     break;
 
   case 58:
-#line 563 "syntax.y"
+#line 574 "syntax.y"
                          {
 								(yyval.info).type = (yyvsp[0].info).type;
 								if(strcmp((yyvsp[0].info).type, "int") == 0)
@@ -2194,18 +2205,18 @@ yyreduce:
 									(yyval.info).strVal = (yyvsp[0].info).strVal;
 								}
 						 }
-#line 2198 "y.tab.c"
+#line 2209 "y.tab.c"
     break;
 
   case 59:
-#line 586 "syntax.y"
+#line 597 "syntax.y"
                                {
                   					if(lookupVar((yyvsp[0].strVal)))
 									{
 										var* actualVar = getVar((yyvsp[0].strVal));
 										if(actualVar->set == true)
 										{
-											strcpy((yyval.info).type, actualVar->type);
+											(yyval.info).type = actualVar->type;
 											if(strcmp(actualVar->type, "int") == 0)
 											{
 												(yyval.info).intVal = atoi(actualVar->value);
@@ -2240,17 +2251,17 @@ yyreduce:
 										UndeclaredVariableError((yyvsp[0].strVal));
 									}
                   			   }
-#line 2244 "y.tab.c"
+#line 2255 "y.tab.c"
     break;
 
   case 60:
-#line 627 "syntax.y"
+#line 638 "syntax.y"
                                                 { ;}
-#line 2250 "y.tab.c"
+#line 2261 "y.tab.c"
     break;
 
   case 61:
-#line 628 "syntax.y"
+#line 639 "syntax.y"
                                         { 
                   						char name[50];
 	          							strcpy(name, extractName((yyvsp[0].strVal)));
@@ -2287,11 +2298,11 @@ yyreduce:
 	          								UndeclaredVariableError(name);
 	          							}
                    					}
-#line 2291 "y.tab.c"
+#line 2302 "y.tab.c"
     break;
 
   case 62:
-#line 664 "syntax.y"
+#line 675 "syntax.y"
                                         { 
                   						(yyval.info).type = (yyvsp[0].info).type;
                   						if(strcmp((yyval.info).type, "int") == 0)
@@ -2312,15 +2323,13 @@ yyreduce:
           								}
 
                   					}
-#line 2316 "y.tab.c"
+#line 2327 "y.tab.c"
     break;
 
   case 63:
-#line 684 "syntax.y"
+#line 695 "syntax.y"
                                                 { 
-                  									strcpy((yyval.info).type, (yyvsp[-1].info).type);
-
-
+                  									(yyval.info).type = (yyvsp[-1].info).type;
 			          								if(strcmp((yyvsp[-1].info).type, "int") == 0)
 			          									(yyval.info).intVal = (yyvsp[-1].info).intVal;
 			          								else if (strcmp((yyvsp[-1].info).type, "float") == 0)
@@ -2335,29 +2344,31 @@ yyreduce:
 			          									(yyval.info).charVal = (yyvsp[-1].info).charVal;
 			          								}else if (strcmp((yyvsp[-1].info).type, "string") == 0)
 			          								{
-			          									strcpy((yyval.info).strVal, (yyvsp[-1].info).strVal);
+			          									(yyval.info).strVal = (yyvsp[-1].info).strVal;
 			          								}
 
+			          								
+;
                   								}
-#line 2343 "y.tab.c"
+#line 2354 "y.tab.c"
     break;
 
   case 64:
-#line 706 "syntax.y"
+#line 717 "syntax.y"
                                                           { 
                	  												if(strcmp((yyvsp[-2].info).type, (yyvsp[0].info).type)== 0)
                	  												{
                	  													if(strcmp((yyvsp[-2].info).type, "int") == 0)
                	  													{
                	  														(yyval.info).intVal = (yyvsp[-2].info).intVal + (yyvsp[0].info).intVal;
-               	  														strcpy((yyval.info).type, (yyvsp[-2].info).type);
+               	  														(yyval.info).type = (yyvsp[-2].info).type;
                	  													}else if(strcmp((yyvsp[-2].info).type, "float") == 0)
                	  													{
                	  														(yyval.info).floatVal = (yyvsp[-2].info).floatVal + (yyvsp[0].info).floatVal;
-               	  														strcpy((yyval.info).type, (yyvsp[-2].info).type);
+               	  														(yyval.info).type = (yyvsp[-2].info).type;
                	  													}else if (strcmp((yyvsp[-2].info).type, "string") == 0)
                	  													{
-               	  														strcpy((yyval.info).strVal, (yyvsp[-2].info).strVal);
+               	  														(yyval.info).strVal = (yyvsp[-2].info).strVal;
                	  														int length = strlen((yyval.info).strVal);
                	  														(yyval.info).strVal[length - 1] = '\0';
                	  														strcat((yyval.info).strVal, (yyvsp[0].info).strVal + 1);
@@ -2374,11 +2385,11 @@ yyreduce:
                	  												}
 
                	  											}
-#line 2378 "y.tab.c"
+#line 2389 "y.tab.c"
     break;
 
   case 65:
-#line 737 "syntax.y"
+#line 748 "syntax.y"
                                                                                                         {
                	  												if(strcmp((yyvsp[-2].info).type, (yyvsp[0].info).type)== 0)
                	  												{
@@ -2402,11 +2413,11 @@ yyreduce:
                	  												}
 
                	  											}
-#line 2406 "y.tab.c"
+#line 2417 "y.tab.c"
     break;
 
   case 66:
-#line 760 "syntax.y"
+#line 771 "syntax.y"
                                                                 {
                	  												if(strcmp((yyvsp[-2].info).type, (yyvsp[0].info).type)== 0)
                	  												{
@@ -2430,11 +2441,11 @@ yyreduce:
                	  												}
 
                	  											}
-#line 2434 "y.tab.c"
+#line 2445 "y.tab.c"
     break;
 
   case 67:
-#line 783 "syntax.y"
+#line 794 "syntax.y"
                                                                 {
                	  												if(strcmp((yyvsp[-2].info).type, (yyvsp[0].info).type)== 0)
                	  												{
@@ -2472,11 +2483,11 @@ yyreduce:
                	  												}
 
                	  											}
-#line 2476 "y.tab.c"
+#line 2487 "y.tab.c"
     break;
 
   case 68:
-#line 821 "syntax.y"
+#line 832 "syntax.y"
                                                                 {
 	           	  												if(strcmp((yyvsp[-2].info).type, (yyvsp[0].info).type)== 0)
 	           	  												{
@@ -2495,11 +2506,11 @@ yyreduce:
 	           	  													OperationError();
 	           	  												}
                	  											}
-#line 2499 "y.tab.c"
+#line 2510 "y.tab.c"
     break;
 
   case 73:
-#line 849 "syntax.y"
+#line 860 "syntax.y"
                                                                 {
 																if(lookupFunction((yyvsp[-3].strVal), false))
 																{
@@ -2552,11 +2563,11 @@ yyreduce:
 																	UndefinedFunction((yyvsp[-3].strVal));
 																}
 															}
-#line 2556 "y.tab.c"
+#line 2567 "y.tab.c"
     break;
 
   case 74:
-#line 901 "syntax.y"
+#line 912 "syntax.y"
                                   {
               						if(lookupFunction((yyvsp[-2].strVal), false))
 									{
@@ -2611,23 +2622,23 @@ yyreduce:
 										UndefinedFunction((yyvsp[-2].strVal));
 									}	
               					  }
-#line 2615 "y.tab.c"
+#line 2626 "y.tab.c"
     break;
 
   case 75:
-#line 957 "syntax.y"
+#line 968 "syntax.y"
                                                         {;}
-#line 2621 "y.tab.c"
+#line 2632 "y.tab.c"
     break;
 
   case 76:
-#line 958 "syntax.y"
+#line 969 "syntax.y"
                                                                                 {;}
-#line 2627 "y.tab.c"
+#line 2638 "y.tab.c"
     break;
 
   case 77:
-#line 961 "syntax.y"
+#line 972 "syntax.y"
                                                 {
 													parameterList[parameterListCounter].type = (yyvsp[0].info).type;
 
@@ -2648,11 +2659,11 @@ yyreduce:
 			          									parameterList[parameterListCounter++].strVal = (yyvsp[0].info).strVal;
 			          								}
 												}
-#line 2652 "y.tab.c"
+#line 2663 "y.tab.c"
     break;
 
   case 78:
-#line 981 "syntax.y"
+#line 992 "syntax.y"
                                                                        { 
 					                        							parameterList[parameterListCounter].type = (yyvsp[0].info).type;
 
@@ -2673,47 +2684,47 @@ yyreduce:
 								          									parameterList[parameterListCounter++].strVal = (yyvsp[0].info).strVal;
 								          								}
 								          							}
-#line 2677 "y.tab.c"
+#line 2688 "y.tab.c"
     break;
 
   case 88:
-#line 1019 "syntax.y"
-                                        {(yyval.intVal)=(yyvsp[-2].intVal)+(yyvsp[0].intVal); printf("e->e+e | %d + %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 2683 "y.tab.c"
+#line 1030 "syntax.y"
+                                        {(yyval.intVal)=(yyvsp[-2].intVal)+(yyvsp[0].intVal); }
+#line 2694 "y.tab.c"
     break;
 
   case 89:
-#line 1020 "syntax.y"
-                                        {(yyval.intVal)=(yyvsp[-2].intVal)-(yyvsp[0].intVal); printf("e->e-e | %d - %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 2689 "y.tab.c"
+#line 1031 "syntax.y"
+                                        {(yyval.intVal)=(yyvsp[-2].intVal)-(yyvsp[0].intVal); }
+#line 2700 "y.tab.c"
     break;
 
   case 90:
-#line 1021 "syntax.y"
-                                        {(yyval.intVal)=(yyvsp[-2].intVal)*(yyvsp[0].intVal); printf("e->e*e | %d * %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 2695 "y.tab.c"
+#line 1032 "syntax.y"
+                                        {(yyval.intVal)=(yyvsp[-2].intVal)*(yyvsp[0].intVal); }
+#line 2706 "y.tab.c"
     break;
 
   case 91:
-#line 1022 "syntax.y"
-                                        {(yyval.intVal)=(yyvsp[-2].intVal)/(yyvsp[0].intVal); printf("e->e/e | %d / %d = %d ", (yyvsp[-2].intVal), (yyvsp[0].intVal), (yyval.intVal));}
-#line 2701 "y.tab.c"
+#line 1033 "syntax.y"
+                                        {(yyval.intVal)=(yyvsp[-2].intVal)/(yyvsp[0].intVal); }
+#line 2712 "y.tab.c"
     break;
 
   case 92:
-#line 1023 "syntax.y"
+#line 1034 "syntax.y"
                                         {(yyval.intVal)= (yyvsp[-1].intVal);}
-#line 2707 "y.tab.c"
+#line 2718 "y.tab.c"
     break;
 
   case 93:
-#line 1024 "syntax.y"
+#line 1035 "syntax.y"
                                                         {(yyval.intVal)=(yyvsp[0].intVal);}
-#line 2713 "y.tab.c"
+#line 2724 "y.tab.c"
     break;
 
 
-#line 2717 "y.tab.c"
+#line 2728 "y.tab.c"
 
       default: break;
     }
@@ -2945,7 +2956,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 1027 "syntax.y"
+#line 1038 "syntax.y"
 
 void yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);

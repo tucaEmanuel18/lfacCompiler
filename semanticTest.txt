@@ -1,0 +1,52 @@
+float xF := 7.6;
+int var1 := 4;
+int yF;
+float fvar1 := 4.0;
+const float const_fvar1 := 4.0;
+bool adevarat := true;
+bool fals := false;
+char c;
+char ch := 'd';
+const char ch_const := 'd';
+string name := "Emanuel";
+string lastName := "Tuca";
+int z := 17;
+int a:= 10;
+int b := 15;
+
+int x[20] := {1, 2, 3, 4, 5, 6, 7, 8};
+int y[10];
+float xA[20] := {1.2, 2.5, 0.00002};
+char Tiberiu[8] := {'T', 'i', 'b', 'e', 'r', 'i', 'u'};
+string testArray[2] := {"Emanuel", "Tuca"};
+bool aha[2];
+
+
+{
+    var1 := var1 + 5;
+    print ( var1 );  
+    var1 := var1 % 2;
+    print ( var1 ); 
+    var1 := x[1] + x[5];
+    print ( var1 ); 
+    var1 := (var1 + var1) * (2 + x[2]);
+    print ( var1 ); 
+
+
+    
+    x[1] := 5;
+
+    a := a + a;
+    print ( a );
+    testArray[0] := "String" + "Operation";
+
+    print ( testArray[] );
+    
+    name := name + lastName;
+
+    print ( name );
+
+    print ( varTable );
+
+
+}

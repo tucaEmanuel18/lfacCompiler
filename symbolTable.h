@@ -65,6 +65,7 @@ var* getVar(char *name) {
 		currentVar = currentVar->next;
 	}
 	return currentVar;
+
 }
 
 void insertVar(char* dataType, char* symbolName, char* value, char* scope, bool set, bool constant)

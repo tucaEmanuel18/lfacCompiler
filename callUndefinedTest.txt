@@ -1,0 +1,10 @@
+float xF := 7.6;
+const int var1 := 2;
+int yF;
+int a := 1;
+
+int sum(int x, int y);
+
+{
+ 	sum(a, var1 + 2);
+}

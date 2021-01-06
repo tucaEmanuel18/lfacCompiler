@@ -1,0 +1,12 @@
+string name[5] := {"Emanuel", "Tuca"};
+
+{
+	print(name[]);
+	name[0] := "Tiberiu";
+	print(name[]);
+	name[1] := "Gutu";
+	print(name[]);
+	name[1] := name[0];
+	print(name[]);
+
+}
